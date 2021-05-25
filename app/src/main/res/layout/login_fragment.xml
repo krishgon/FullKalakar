@@ -3,131 +3,117 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
 
-    android:background="@color/white">
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/editTextPhone"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:ems="10"-->
-    <!--        android:inputType="phone"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.5"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-
-    <TextView
-        android:id="@+id/appTitle_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:fontFamily="@font/mavenpro_variable_font_wght"
-        android:text="@string/app_name"
-        android:textColor="@color/pink_dark"
-        android:textSize="50dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/phnum_outlinedTextField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <LinearLayout
+        android:id="@+id/phNum_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="30dp"
-        android:padding="8dp"
+        android:gravity="center|top"
+        android:orientation="vertical"
         android:visibility="visible"
-        app:boxBackgroundColor="@color/white"
-        app:counterEnabled="true"
-        app:counterMaxLength="10"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appTitle_textView"
-        app:startIconDrawable="@drawable/ic_baseline_person_24"
-        app:startIconTint="@color/gray_light_slate">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLength="10"
-            android:maxLines="1"
-            android:textSize="18sp" />
-        <!--            android:hint="phone number" />-->
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/otp_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:padding="15dp"
-        android:text="Send OTP"
-        android:textSize="15dp"
-        app:backgroundTint="@color/pink_dark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phnum_outlinedTextField" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fake_otp_outlinedTextField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="70dp"
-        android:hint="Enter OTP"
-        android:padding="8dp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/otp_button">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phnum_outlinedTextField"
+            style="@style/Widget.Kalakar.TextInputLayout.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:layout_marginTop="100dp"
+            android:visibility="visible"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/ic_baseline_phone_24"
+            app:startIconTint="@color/gray_light_slate">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_dark_slate"
+                android:inputType="number"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/verify_button"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/otp_button"
+            style="@style/Widget.Kalakar.Button"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:fontFamily="@font/ubuntu_light"
+            android:text="Send OTP" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/OTP_linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="12dp"
-        android:text="Verify"
-        android:textSize="16sp"
-        android:visibility="gone"
+        android:gravity="center|top"
+        android:orientation="vertical"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fake_otp_outlinedTextField" />
+        app:layout_constraintTop_toBottomOf="@+id/phNum_linearLayout">
 
-    <Button
-        android:id="@+id/resend_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="12dp"
-        android:text="Resend"
-        android:textSize="16sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/verify_button" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/otp_outlinedTextField"
+            style="@style/Widget.Kalakar.TextInputLayout.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:hint="Enter OTP"
+            android:visibility="visible">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textSize="20sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/verify_button"
+            style="@style/Widget.Kalakar.Button"
+            android:layout_gravity="right"
+            android:text="Verify"
+            android:visibility="visible"
+            android:layout_marginStart="75dp"
+            android:layout_marginEnd="75dp" />
+
+        <TextView
+            android:id="@+id/timeRemaining_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:fontFamily="sans-serif"
+            android:text="0:59"
+            android:textColor="@color/gray_dark_slate"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/resendOTP_button_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/otp"
+            android:textColor="@color/gray_light_slate"
+            android:textSize="18dp"
+            android:visibility="visible" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--TODO: Add darkmode compatibility by doing end number of tweaks-->

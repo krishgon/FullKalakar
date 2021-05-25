@@ -1,12 +1,15 @@
 package com.krishapps.kalakar;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +27,8 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.concurrent.TimeUnit;
 
 public class LoginFragment extends Fragment {
@@ -36,6 +41,10 @@ public class LoginFragment extends Fragment {
     FirebaseAuth fAuth;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
     PhoneAuthProvider.ForceResendingToken token;
+    long secondsLeft;
+    CountDownTimer timer;
+    NumberFormat f;
+    TextInputLayout OTP_textInputLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,12 +58,18 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // assign ui elements to their programmatic variables
         TextInputLayout phNum_textInputLayout = view.findViewById(R.id.phnum_outlinedTextField);
-        TextInputLayout fakeOTP_textInputLayout = view.findViewById(R.id.fake_otp_outlinedTextField);
-        EditText fakeOTP_editText = fakeOTP_textInputLayout.getEditText();
+        OTP_textInputLayout = view.findViewById(R.id.otp_outlinedTextField);
+        EditText OTP_editText = OTP_textInputLayout.getEditText();
         EditText phNum_editText = phNum_textInputLayout.getEditText();
         Button verify_button = view.findViewById(R.id.verify_button);
-        Button resend_button = view.findViewById(R.id.resend_button);
+        TextView resend_button = view.findViewById(R.id.resendOTP_button_textView);
         Button otp_Button = view.findViewById(R.id.otp_button);
+        TextView timer_textView = view.findViewById(R.id.timeRemaining_textView);
+        LinearLayout phNum_layout = view.findViewById(R.id.phNum_linearLayout);
+        LinearLayout OTP_layout = view.findViewById(R.id.OTP_linearLayout);
+        
+        // hide the OTP screen
+        OTP_layout.setVisibility(View.GONE);
 
         // get firebase auth instance
         fAuth = FirebaseAuth.getInstance();
@@ -62,6 +77,28 @@ public class LoginFragment extends Fragment {
         // disable the animation of label/hint of material design's text field
         phNum_textInputLayout.setHint(null);
         phNum_editText.setHint("phone number (India)");
+        phNum_editText.setHintTextColor(getResources().getColor(R.color.gray_light_slate));
+        OTP_textInputLayout.setHint(null);
+        OTP_editText.setHint("Enter OTP");
+        
+
+        // set the countdown timer
+        f = new DecimalFormat("00");
+
+        timer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                secondsLeft = millisUntilFinished/1000;
+                timer_textView.setText("0:"+f.format(secondsLeft));
+            }
+
+            @Override
+            public void onFinish() {
+                timer_textView.setText("0:00");
+                resend_button.setEnabled(true);
+                resend_button.setTextColor(getResources().getColor(R.color.gray_dark_slate));
+            }
+        };
 
         phNum_editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -107,19 +144,12 @@ public class LoginFragment extends Fragment {
                 verificationId = s;
                 token = forceResendingToken;
 
-                phNum_textInputLayout.setVisibility(View.GONE);
-                otp_Button.setVisibility(View.GONE);
+                phNum_layout.setVisibility(View.GONE);
+                OTP_layout.setVisibility(View.VISIBLE);
 
-                fakeOTP_textInputLayout.setVisibility(View.VISIBLE);
-                verify_button.setVisibility(View.VISIBLE);
-                resend_button.setVisibility(View.VISIBLE);
-                resend_button.setEnabled(false);
-            }
 
-            @Override
-            public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
-                super.onCodeAutoRetrievalTimeOut(s);
-                resend_button.setEnabled(true);
+                // start the 1 minute timer
+                timer.start();
             }
         };
 
@@ -136,12 +166,12 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 // get the OTP
 
-                if(fakeOTP_editText.getText().toString().isEmpty()){
-                    fakeOTP_textInputLayout.setError("Sorry ham khali hat nhi jane dege");
+                if(OTP_editText.getText().toString().isEmpty()){
+                    OTP_textInputLayout.setError("Sorry ham khali hat nhi jane dege");
                     return;
                 }
 
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, fakeOTP_editText.getText().toString());
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, OTP_editText.getText().toString());
                 authenticateUser(credential);
             }
         });
@@ -153,24 +183,25 @@ public class LoginFragment extends Fragment {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(fAuth)
                 .setActivity(getActivity())
                 .setPhoneNumber(phoneNum)
-                .setTimeout(60L, TimeUnit.SECONDS)
+                .setTimeout(2L, TimeUnit.SECONDS)
                 .setCallbacks(callbacks)
                 .build();
-
         PhoneAuthProvider.verifyPhoneNumber(options);
+
     }
 
     public void authenticateUser(PhoneAuthCredential credential){
         fAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                Toast.makeText(getContext(), "suffering form success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Welcome" + ("\ud83d\ude01"), Toast.LENGTH_SHORT).show();
+                timer.cancel();
                 switchToUserDetails();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                OTP_textInputLayout.setError("Please enter the correct OTP");
             }
         });
     }

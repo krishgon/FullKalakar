@@ -16,20 +16,5 @@ public class MainActivity extends AppCompatActivity {
         Log.d("krishlog", "onCreate: main activitiy");
 
         //TODO: set the logic to open home page when there user has signed in and open authentication page when user has not signed in
-//        getSupportActionBar().hide();
-//
-//        if (savedInstanceState == null) {
-//
-//            Fragment fragment = new LoginFragment();
-//
-//            Log.d("krishlog", "onCreate: reached here");
-//
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction()
-//                    .add(R.id.fragment_container_view, fragment)
-//                    .setReorderingAllowed(true)
-////                    .addToBackStack(null)
-//                    .commit();
-//        }
     }
 }
