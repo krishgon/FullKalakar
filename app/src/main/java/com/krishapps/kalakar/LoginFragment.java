@@ -77,7 +77,7 @@ public class LoginFragment extends Fragment {
         // disable the animation of label/hint of material design's text field
         phNum_textInputLayout.setHint(null);
         phNum_editText.setHint("phone number (India)");
-        phNum_editText.setHintTextColor(getResources().getColor(R.color.gray_light_slate));
+//        phNum_editText.setHintTextColor(getResources().getColor(R.color.gray_light_slate));
         OTP_textInputLayout.setHint(null);
         OTP_editText.setHint("Enter OTP");
         

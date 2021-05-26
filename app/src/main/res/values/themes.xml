@@ -43,6 +43,14 @@
         <item name="android:layout_marginRight">75dp</item>
     </style>
 
+<!--    <widget-->
+    <style name="Widget.Kalakar.TextInputEditText" parent="Widget.AppCompat.EditText" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/gray_dark_slate</item>
+        <item name="android:textColorHint">@color/gray_light_slate</item>
+    </style>
 
 </resources>
 
