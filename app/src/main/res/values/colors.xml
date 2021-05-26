@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="red">#d3455b</color>
     <color name="gray_light_slate">#788896</color>
     <color name="gray_dark_slate">#293845</color>
     <color name="pink_light">#de9ae8</color>

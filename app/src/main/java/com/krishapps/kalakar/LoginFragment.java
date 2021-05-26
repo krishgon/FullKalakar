@@ -1,5 +1,6 @@
 package com.krishapps.kalakar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -50,7 +51,7 @@ public class LoginFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            switchToUserDetails();
+            switchToHomePage();
         }
     }
 
@@ -218,4 +219,12 @@ public class LoginFragment extends Fragment {
 //                .addToBackStack(null) // this line will not exist in the published app
                 .commit();
     }
+
+    public void switchToHomePage(){
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+    }
 }
+
+// TODO: set a system on the otp text box such that when correct OTP is entered, the fragments should autonomously switch to userDetails fragment
+// TODO: take the user directly to MainActivity if he/she already exists
