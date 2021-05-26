@@ -10,14 +10,13 @@
         style="@style/Widget.Kalakar.TextInputLayout.Large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="35dp"
         app:counterEnabled="true"
         app:counterMaxLength="20"
-        app:startIconDrawable="@drawable/ic_at"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_outlinedTextField" >
+        app:layout_constraintTop_toBottomOf="@+id/name_outlinedTextField"
+        app:startIconDrawable="@drawable/ic_at">
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/Widget.Kalakar.TextInputEditText"
@@ -30,11 +29,11 @@
         style="@style/Widget.Kalakar.TextInputLayout.Large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:startIconDrawable="@drawable/ic_baseline_person_24">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -47,11 +46,41 @@
     <Button
         android:id="@+id/logOut_button"
         style="@style/Widget.Kalakar.Button"
-        android:text="Submit"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="20dp"
+        android:text="Log out (tentative)"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/ubuntu_light"
+        android:text="Tell us about yourself: "
+        android:textColor="@color/gray_dark_slate"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/submit_button"
+        style="@style/Widget.Kalakar.Button"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:text="Submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userName_outlinedTextField" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--TODO: try to enable the material design animation and change the color of the label from purple to pink-->

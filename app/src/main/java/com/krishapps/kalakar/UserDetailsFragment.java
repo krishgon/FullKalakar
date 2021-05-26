@@ -1,6 +1,9 @@
 package com.krishapps.kalakar;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,14 +21,21 @@ public class UserDetailsFragment extends Fragment {
         super(R.layout.user_details_fragment);
     }
 
+    String fullName, userName;
+    TextInputLayout userName_textInputLayout;
+    TextInputLayout name_textInputLayout;
+    EditText userName_editText;
+    EditText name_editText;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // assign ui elements to their programatic variables
-        TextInputLayout userName_textInputLayout = view.findViewById(R.id.userName_outlinedTextField);
-        TextInputLayout name_textInputLayout = view.findViewById(R.id.name_outlinedTextField);
-        EditText userName_editText = userName_textInputLayout.getEditText();
-        EditText name_editText = name_textInputLayout.getEditText();
+        userName_textInputLayout = view.findViewById(R.id.userName_outlinedTextField);
+        name_textInputLayout = view.findViewById(R.id.name_outlinedTextField);
+        userName_editText = userName_textInputLayout.getEditText();
+        name_editText = name_textInputLayout.getEditText();
         Button logOut_button = view.findViewById(R.id.logOut_button);
+        Button submit_button = view.findViewById(R.id.submit_button);
 
         //TODO: do something to not repeat the code below for disabling the animation of text field
 
@@ -51,6 +61,86 @@ public class UserDetailsFragment extends Fragment {
             }
         });
 
+        // register user in firebase when clicked on submit button
+        submit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(areUserDetailsValid()){
+                    Log.d("krishlog", "onClick: entered in the process");
+                    fullName = name_editText.getText().toString();
+                    userName = userName_editText.getText().toString();
+                }
+            }
+        });
+
+        name_editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().isEmpty() == false){
+                    name_textInputLayout.setError(null);
+                }else {
+                    name_textInputLayout.setError("Required");
+                }
+            }
+        });
+
+        userName_editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().isEmpty() == false){
+                    userName_textInputLayout.setError(null);
+                }else {
+                    userName_textInputLayout.setError("Required");
+                }
+            }
+        });
+
 
     }
+
+    public boolean areUserDetailsValid(){
+        String mName = name_editText.getText().toString();
+        String mUserName = userName_editText.getText().toString();
+
+        name_textInputLayout.setError(null);
+        userName_textInputLayout.setError(null);
+
+        if((mName.isEmpty()==false) && (mUserName.isEmpty()==false)){
+            Log.d("krishlog", "areUserDetailsValid: everything is fine");
+            return true;
+        }
+
+        if(mName.isEmpty()){
+            name_textInputLayout.setError("Required");
+            Log.d("krishlog", "areUserDetailsValid: name not typed");
+        }
+
+        if(mUserName.isEmpty()){
+            userName_textInputLayout.setError("Required");
+            Log.d("krishlog", "areUserDetailsValid: userName not typed");
+        }
+        return false;
+    }
+
+
 }
