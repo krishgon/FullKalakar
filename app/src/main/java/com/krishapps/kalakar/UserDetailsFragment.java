@@ -74,6 +74,7 @@ public class UserDetailsFragment extends Fragment {
                     user.put("fullName", fullName);
                     user.put("phoneNumber", phoneNumber);
                     user.put("userName", userName);
+
                     documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {

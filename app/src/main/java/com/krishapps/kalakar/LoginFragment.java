@@ -195,7 +195,6 @@ public class LoginFragment extends Fragment {
         fAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                Toast.makeText(getContext(), "Welcome" + ("\ud83d\ude01"), Toast.LENGTH_SHORT).show();
                 timer.cancel();
                 switchToUserDetails();
             }
