@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
         // hide the action bar
             getSupportActionBar().hide();
+
+        // change the color of status bar
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(R.color.pink_light));
 
         // collect the fragment manager
             fragmentManager = getSupportFragmentManager();
@@ -77,3 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 }
+
+
+/* TODO: change the deprecated methods which is:
+    -getColor()*/

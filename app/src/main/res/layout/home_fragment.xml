@@ -4,19 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pink_light" >
+    android:background="@color/pink_light"
+    android:isScrollContainer="true">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/appLogo_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Swagat hai mere dost"
-        android:textSize="24sp"
-        android:textColor="@color/gray_dark_slate"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/ubuntu_light"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/app_name"
+        android:textColor="@color/gray_dark_slate"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/qr_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/appLogo_textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_qr_code_scanner_34"
+        app:tint="@color/gray_dark_slate" />
+
+    <LinearLayout
+        android:id="@+id/city_layout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/appLogo_textView"
+        app:layout_constraintTop_toBottomOf="@+id/appLogo_textView">
+
+        <ImageView
+            android:id="@+id/pin_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_baseline_location_on_24"
+            app:tint="@color/blue_slate_medium" />
+
+        <TextView
+            android:id="@+id/cityName_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/ubuntu_light"
+            android:text="Mumbai"
+            android:textColor="@color/blue_slate_medium"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_outlinedTextField"
+        style="@style/Widget.Kalakar.TextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="16dp"
+        android:visibility="visible"
+        app:boxStrokeColor="@color/gray_light_slate"
+        app:errorEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/city_layout_button"
+        app:startIconDrawable="@drawable/ic_baseline_search_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/Widget.Kalakar.TextInputEditText"
+            android:inputType="text"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/search_outlinedTextField"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/search_outlinedTextField"
+        app:layout_constraintTop_toBottomOf="@+id/search_outlinedTextField">
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="3dp"
+            android:background="@color/pink_dark" />
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/pink_dark" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
