@@ -222,6 +222,7 @@ public class LoginFragment extends Fragment {
     public void switchToHomePage(){
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
+        getActivity().finish();
     }
 }
 

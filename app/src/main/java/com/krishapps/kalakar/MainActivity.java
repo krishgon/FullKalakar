@@ -73,7 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
         // set the current fragment to home fragment
             if(savedInstanceState == null){
-                bottomNavigationView.setSelectedItemId(R.id.homePage);
+                fragmentManager.beginTransaction()
+                        .add(R.id.main_fragment_container_view, homeFrag)
+                        .setReorderingAllowed(true)
+                        .commit();
             }
     }
 

@@ -80,6 +80,7 @@ public class UserDetailsFragment extends Fragment {
                         public void onSuccess(Void unused) {
                             Log.d("krishlog", "onSuccess: user profile is completed");
                             startActivity(new Intent(getActivity(), MainActivity.class));
+                            getActivity().finish();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
