@@ -1,12 +1,12 @@
 package com.krishapps.kalakar;
 
 public class Artist {
-    public Artist(String name, String userName, String city, Float rating, String[] skillSet) {
+    public Artist(String name, String userName, String city, Float rating, String skill) {
         this.name = name;
         this.userName = userName;
         this.city = city;
         this.rating = rating;
-        this.skillSet = skillSet;
+        this.skill = skill;
     }
 
     public String getName() {
@@ -41,18 +41,18 @@ public class Artist {
         this.rating = rating;
     }
 
-    public String[] getSkillSet() {
-        return skillSet;
+    public String getSkill() {
+        return skill;
     }
 
-    public void setSkillSet(String[] skillSet) {
-        this.skillSet = skillSet;
+    public void setSkill(String skill) {
+        this.skill = skill;
     }
 
     private String name;
     private String userName;
     private String city;
     private Float rating;
-    private String[] skillSet;
+    private String skill;
     //TODO: do something about the profile pic
 }
