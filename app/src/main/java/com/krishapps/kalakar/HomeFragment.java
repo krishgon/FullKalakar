@@ -22,10 +22,14 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        search_layout = view.findViewById(R.id.search_outlinedTextField);
-        search_editText = search_layout.getEditText();
+        // collect ui elements
+            search_layout = view.findViewById(R.id.search_outlinedTextField);
+            search_editText = search_layout.getEditText();
 
-        search_layout.setHint(null);
-        search_editText.setHint(Html.fromHtml("<small>"+ getString(R.string.searchHint) + "</small>"));
+        // disable search box hint animation and set hint programmatically
+            search_layout.setHint(null);
+            search_editText.setHint(Html.fromHtml("<small>"+ getString(R.string.searchHint) + "</small>"));
+
+        // set up the recycler view
     }
 }

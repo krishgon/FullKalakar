@@ -25,7 +25,7 @@
         android:id="@+id/qr_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/appLogo_textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_qr_code_scanner_34"
@@ -119,5 +119,17 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/search_outlinedTextField"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/artists_recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subTitle_textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

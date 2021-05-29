@@ -1,0 +1,116 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardElevation="8dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:src="@drawable/profile_pic"
+                app:civ_border_color="@color/gray_light"
+                app:civ_border_width="4dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:gravity="top"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/artistName_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu_light"
+                    android:text="Soumya Agrawal"
+                    android:textColor="@color/pink_dark"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/artistUserName_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu_light"
+                    android:text="sumasu21"
+                    android:textColor="@color/gray_light_slate"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/city_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Mumbai"
+                    android:textColor="@color/pink_dark"
+                    android:textSize="14sp"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipIcon="@drawable/ic_baseline_location_on_24"
+                    app:chipIconSize="18dp"
+                    app:chipIconTint="@color/pink_dark"
+                    app:chipStrokeColor="@color/thistle"
+                    app:chipStrokeWidth="2dp" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <RatingBar
+                        android:id="@+id/artist_ratingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_gravity="bottom"
+                        android:numStars="5"
+                        android:rating="4.5"
+                        android:theme="@style/RatingBar" />
+                </FrameLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/skill_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guitarist"
+                android:textColor="@color/gray_light_slate"
+                android:textSize="14sp"
+                app:chipBackgroundColor="@color/white"
+                app:chipIcon="@drawable/ic_baseline_done_24"
+                app:chipIconSize="18dp"
+                app:chipIconTint="@color/gray_light_slate"
+                app:chipStrokeColor="@color/gray_light"
+                app:chipStrokeWidth="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
+
+<!--TODO: Probably there will be a recycler view for displaying skillset's inside chips-->
