@@ -3,16 +3,202 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/pink_light">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_pp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="left"
+                android:src="@drawable/profile_pic"
+                app:civ_border_color="@color/pink_dark"
+                app:civ_border_width="4dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/userName_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu_light"
+                    android:text="Krish Agrawal"
+                    android:textColor="@color/gray_dark_slate"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/userUserName_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu_light"
+                    android:text="krishgon"
+                    android:textColor="@color/gray_dim"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/userMail_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ubuntu_light"
+                        android:text="krishgondia@gmail.com"
+                        android:textColor="@color/gray_dark_slate"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/userPhNum_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:fontFamily="@font/ubuntu_light"
+                        android:gravity="bottom"
+                        android:text="9285276039"
+                        android:textColor="@color/gray_dark_slate"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/editProfile_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/ubuntu_light"
+            android:text="Edit profile"
+            android:textAllCaps="false"
+            android:textColor="@color/pink_dark"
+            android:textStyle="bold"
+            app:icon="@drawable/ic_baseline_edit_24"
+            app:iconGravity="start"
+            app:iconTint="@color/pink_dark"
+            app:strokeColor="@color/pink_dark"
+            app:strokeWidth="2dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/divider_linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="3dp"
+            android:background="@color/white" />
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/white" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bills_button"
+        style="@style/Widget.Kalakar.Button"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Bills"
+        app:icon="@drawable/ic_baseline_history_24"
+        app:iconGravity="textStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider_linearLayout" />
+
+    <Button
+        android:id="@+id/favorites_button"
+        style="@style/Widget.Kalakar.Button"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Favorites"
+        app:icon="@drawable/ic_baseline_bookmarks_24"
+        app:iconGravity="textStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bills_button" />
+
+    <Button
+        android:id="@+id/kalakar_button"
+        style="@style/Widget.Kalakar.Button"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:backgroundTint="@color/pink_dark"
+        android:text="I want to be a Kalakar"
+        app:icon="@drawable/ic_baseline_stars_24"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toTopOf="@+id/deleteAccount_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favorites_button" />
+
+    <Button
+        android:id="@+id/deleteAccount_button"
+        style="@style/Widget.Kalakar.Button"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="75dp"
+        android:layout_marginRight="75dp"
+        android:backgroundTint="@color/red"
+        android:text="Delete my account"
+        app:icon="@drawable/ic_baseline_delete_24"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toTopOf="@+id/logOut_button_original"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/logOut_button_original"
         style="@style/Widget.Kalakar.Button"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="75dp"
+        android:layout_marginRight="75dp"
         android:backgroundTint="@color/red"
         android:text="Log out"
+        app:icon="@drawable/ic_baseline_exit_to_app_24"
+        app:iconGravity="textStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95" />
 </androidx.constraintlayout.widget.ConstraintLayout>
