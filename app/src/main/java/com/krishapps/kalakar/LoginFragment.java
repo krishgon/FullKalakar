@@ -50,133 +50,138 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            switchToHomePage();
-        }
+
+        // check if the user is already signed in
+            if(FirebaseAuth.getInstance().getCurrentUser() != null){
+                switchToHomePage();
+            }
+            Log.d("krishlog", "onCreate: passed the on create of login frag");
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // assign ui elements to their programmatic variables
-        TextInputLayout phNum_textInputLayout = view.findViewById(R.id.phnum_outlinedTextField);
-        OTP_textInputLayout = view.findViewById(R.id.otp_outlinedTextField);
-        EditText OTP_editText = OTP_textInputLayout.getEditText();
-        EditText phNum_editText = phNum_textInputLayout.getEditText();
-        Button verify_button = view.findViewById(R.id.verify_button);
-        TextView resend_button = view.findViewById(R.id.resendOTP_button_textView);
-        Button otp_Button = view.findViewById(R.id.otp_button);
-        TextView timer_textView = view.findViewById(R.id.timeRemaining_textView);
-        LinearLayout phNum_layout = view.findViewById(R.id.phNum_linearLayout);
-        LinearLayout OTP_layout = view.findViewById(R.id.OTP_linearLayout);
+            TextInputLayout phNum_textInputLayout = view.findViewById(R.id.phnum_outlinedTextField);
+            OTP_textInputLayout = view.findViewById(R.id.otp_outlinedTextField);
+            EditText OTP_editText = OTP_textInputLayout.getEditText();
+            EditText phNum_editText = phNum_textInputLayout.getEditText();
+            Button verify_button = view.findViewById(R.id.verify_button);
+            TextView resend_button = view.findViewById(R.id.resendOTP_button_textView);
+            Button otp_Button = view.findViewById(R.id.otp_button);
+            TextView timer_textView = view.findViewById(R.id.timeRemaining_textView);
+            LinearLayout phNum_layout = view.findViewById(R.id.phNum_linearLayout);
+            LinearLayout OTP_layout = view.findViewById(R.id.OTP_linearLayout);
         
         // hide the OTP screen
-        OTP_layout.setVisibility(View.GONE);
+            OTP_layout.setVisibility(View.GONE);
 
         // get firebase auth instance
-        fAuth = FirebaseAuth.getInstance();
+            Log.d("krishlog", "onViewCreated: idhar pohoch gya mai");
+            fAuth = FirebaseAuth.getInstance();
 
         // disable the animation of label/hint of material design's text field
-        phNum_textInputLayout.setHint(null);
-        phNum_editText.setHint("phone number (India)");
-//        phNum_editText.setHintTextColor(getResources().getColor(R.color.gray_light_slate));
-        OTP_textInputLayout.setHint(null);
-        OTP_editText.setHint("Enter OTP");
+            phNum_textInputLayout.setHint(null);
+            phNum_editText.setHint("phone number (India)");
+            OTP_textInputLayout.setHint(null);
+            OTP_editText.setHint("Enter OTP");
         
 
         // set the countdown timer
-        f = new DecimalFormat("00");
+            f = new DecimalFormat("00");
 
-        timer = new CountDownTimer(60000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                secondsLeft = millisUntilFinished/1000;
-                timer_textView.setText("0:"+f.format(secondsLeft));
-            }
-
-            @Override
-            public void onFinish() {
-                timer_textView.setText("0:00");
-                resend_button.setEnabled(true);
-                resend_button.setTextColor(getResources().getColor(R.color.gray_dark_slate));
-            }
-        };
-
-        phNum_editText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                Log.d("krishlog", "onKey: lagta hai apne button dabai hai");
-                if (isPhoneNumberValid(phNum_editText.getText())){
-                    phNum_textInputLayout.setError(null);
+            timer = new CountDownTimer(60000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    secondsLeft = millisUntilFinished/1000;
+                    timer_textView.setText("0:"+f.format(secondsLeft));
                 }
-                return false;
-            }
-        });
 
-        otp_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isPhoneNumberValid(phNum_editText.getText())){
-                    phNum_textInputLayout.setError("You need atleast 10 digits in your phone number");
+                @Override
+                public void onFinish() {
+                    timer_textView.setText("0:00");
+                    resend_button.setEnabled(true);
+                    resend_button.setTextColor(getResources().getColor(R.color.gray_dark_slate));
                 }
-                else{
-                    phNum_editText.setError(null);
+            };
 
-                    userPhoneNumber = "+" + countryCode + phNum_editText.getText().toString();
+        // check if the phone number is valid everytime user types a number
+            phNum_editText.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    Log.d("krishlog", "onKey: lagta hai apne button dabai hai");
+                    if (isPhoneNumberValid(phNum_editText.getText())){
+                        phNum_textInputLayout.setError(null);
+                    }
+                    return false;
+                }
+            });
+
+        // when send otp is clicked, send the user his tasty OTP after passing checks
+            otp_Button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!isPhoneNumberValid(phNum_editText.getText())){
+                        phNum_textInputLayout.setError("You need atleast 10 digits in your phone number");
+                    }
+                    else{
+                        phNum_editText.setError(null);
+                        userPhoneNumber = "+" + countryCode + phNum_editText.getText().toString();
+                        verifyPhoneNumber(userPhoneNumber);
+                        Toast.makeText(getContext(), userPhoneNumber, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        // define callbacks for otp verification
+            callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                @Override
+                public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                    authenticateUser(phoneAuthCredential);
+                }
+
+                @Override
+                public void onVerificationFailed(@NonNull FirebaseException e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                    super.onCodeSent(s, forceResendingToken);
+                    verificationId = s;
+                    token = forceResendingToken;
+
+                    phNum_layout.setVisibility(View.GONE);
+                    OTP_layout.setVisibility(View.VISIBLE);
+
+                    // start the 1 minute timer
+                    timer.start();
+                }
+            };
+
+        // resend otp when resend otp button will be clicked
+            resend_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     verifyPhoneNumber(userPhoneNumber);
-                    Toast.makeText(getContext(), userPhoneNumber, Toast.LENGTH_SHORT).show();
+                    resend_button.setEnabled(false);
                 }
-            }
-        });
+            });
 
-        callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-            @Override
-            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                authenticateUser(phoneAuthCredential);
-            }
+        // verify otp when verify button is clicked
+            verify_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // get the OTP
 
-            @Override
-            public void onVerificationFailed(@NonNull FirebaseException e) {
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+                    if(OTP_editText.getText().toString().isEmpty()){
+                        OTP_textInputLayout.setError("Sorry ham khali hat nhi jane dege");
+                        return;
+                    }
 
-            @Override
-            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                super.onCodeSent(s, forceResendingToken);
-                verificationId = s;
-                token = forceResendingToken;
-
-                phNum_layout.setVisibility(View.GONE);
-                OTP_layout.setVisibility(View.VISIBLE);
-
-
-                // start the 1 minute timer
-                timer.start();
-            }
-        };
-
-        resend_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                verifyPhoneNumber(userPhoneNumber);
-                resend_button.setEnabled(false);
-            }
-        });
-
-        verify_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // get the OTP
-
-                if(OTP_editText.getText().toString().isEmpty()){
-                    OTP_textInputLayout.setError("Sorry ham khali hat nhi jane dege");
-                    return;
+                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, OTP_editText.getText().toString());
+                    authenticateUser(credential);
                 }
-
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, OTP_editText.getText().toString());
-                authenticateUser(credential);
-            }
-        });
-
+            });
     }
 
     public void verifyPhoneNumber(String phoneNum){
@@ -215,7 +220,6 @@ public class LoginFragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.authentication_fragment_container_view, fragment)
-//                .addToBackStack(null) // this line will not exist in the published app
                 .commit();
     }
 
@@ -227,4 +231,3 @@ public class LoginFragment extends Fragment {
 }
 
 // TODO: set a system on the otp text box such that when correct OTP is entered, the fragments should autonomously switch to userDetails fragment
-// TODO: take the user directly to MainActivity if he/she already exists

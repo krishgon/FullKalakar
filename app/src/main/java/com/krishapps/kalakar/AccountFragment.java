@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class AccountFragment  extends Fragment {
     public AccountFragment(){
@@ -50,13 +52,18 @@ public class AccountFragment  extends Fragment {
             userID = firebaseAuth.getCurrentUser().getUid();
 
             documentReference = firestore.collection("users").document(userID);
-            documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            ListenerRegistration registration = documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                    userPhNum_textView.setText(documentSnapshot.getString("phoneNumber"));
-                    user_name_textView.setText(documentSnapshot.getString("fullName"));
-                    user_userName_textView.setText(documentSnapshot.getString("userName"));
-                    userMail_textView.setVisibility(View.INVISIBLE);
+                    if(error!=null){
+                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        userPhNum_textView.setText(documentSnapshot.getString("phoneNumber"));
+                        user_name_textView.setText(documentSnapshot.getString("fullName"));
+                        user_userName_textView.setText(documentSnapshot.getString("userName"));
+                        userMail_textView.setVisibility(View.INVISIBLE);
+                    }
                 }
             });
 
@@ -66,8 +73,8 @@ public class AccountFragment  extends Fragment {
             logOut_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    registration.remove();
                     FirebaseAuth.getInstance().signOut();
-
                     Intent intent = new Intent(getActivity(), Authentication.class);
                     startActivity(intent);
                 }

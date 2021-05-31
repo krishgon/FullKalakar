@@ -20,9 +20,6 @@ public class Authentication extends AppCompatActivity {
         if (savedInstanceState == null) {
 
             Fragment fragment = new LoginFragment();
-
-            Log.d("krishlog", "onCreate: reached here");
-
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.authentication_fragment_container_view, fragment)
