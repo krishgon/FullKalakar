@@ -1,5 +1,8 @@
-package com.krishapps.kalakar;
+package com.krishapps.kalakar.adapters;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
+import com.krishapps.kalakar.ArtistProfile;
+import com.krishapps.kalakar.Authentication;
+import com.krishapps.kalakar.MainActivity;
+import com.krishapps.kalakar.customClasses.Artist;
+import com.krishapps.kalakar.R;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class ArtistCardAdapter extends RecyclerView.Adapter<ArtistCardAdapter.ViewHolder> {
 
@@ -40,6 +50,13 @@ public class ArtistCardAdapter extends RecyclerView.Adapter<ArtistCardAdapter.Vi
         skill_chip = view.findViewById(R.id.skill_chip);
         artist_ratingBar = view.findViewById(R.id.artist_ratingBar);
 
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("krishlog", "onClick: the card is clicked");
+//            }
+//        });
+
         return new ViewHolder(view);
     }
 
@@ -50,6 +67,17 @@ public class ArtistCardAdapter extends RecyclerView.Adapter<ArtistCardAdapter.Vi
         city_chip.setText(localDataSet[position].getCity());
         skill_chip.setText(localDataSet[position].getSkill());
         artist_ratingBar.setRating(localDataSet[position].getRating());
+
+        Context context = holder.itemView.getContext();
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("krishlog", "onClick: the card of " + localDataSet[position].getName() + " is clicked");
+                Intent intent = new Intent(context, ArtistProfile.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    app:cardElevation="8dp"
-    android:background="@color/white">
+    android:background="@color/white"
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,6 +66,7 @@
                     app:chipIcon="@drawable/ic_baseline_location_on_24"
                     app:chipIconSize="18dp"
                     app:chipIconTint="@color/pink_dark"
+                    app:chipStartPadding="6dp"
                     app:chipStrokeColor="@color/thistle"
                     app:chipStrokeWidth="2dp" />
 
@@ -104,6 +105,7 @@
                 app:chipIcon="@drawable/ic_baseline_done_24"
                 app:chipIconSize="18dp"
                 app:chipIconTint="@color/gray_light_slate"
+                app:chipStartPadding="6dp"
                 app:chipStrokeColor="@color/gray_light"
                 app:chipStrokeWidth="2dp" />
         </LinearLayout>

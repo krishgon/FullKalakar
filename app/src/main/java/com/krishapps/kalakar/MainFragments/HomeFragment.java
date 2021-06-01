@@ -1,7 +1,8 @@
-package com.krishapps.kalakar;
+package com.krishapps.kalakar.MainFragments;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -12,6 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.krishapps.kalakar.customClasses.Artist;
+import com.krishapps.kalakar.adapters.ArtistCardAdapter;
+import com.krishapps.kalakar.R;
+
+import org.jetbrains.annotations.NotNull;
 
 public class HomeFragment extends Fragment {
 
@@ -47,5 +53,21 @@ public class HomeFragment extends Fragment {
             artists_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             ArtistCardAdapter adapter = new ArtistCardAdapter(mArtists);
             artists_recyclerView.setAdapter(adapter);
+            artists_recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                @Override
+                public boolean onInterceptTouchEvent(@NonNull @NotNull RecyclerView rv, @NonNull @NotNull MotionEvent e) {
+                    return false;
+                }
+
+                @Override
+                public void onTouchEvent(@NonNull @NotNull RecyclerView rv, @NonNull @NotNull MotionEvent e) {
+
+                }
+
+                @Override
+                public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+                }
+            });
     }
 }

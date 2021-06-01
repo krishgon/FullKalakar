@@ -1,4 +1,4 @@
-package com.krishapps.kalakar;
+package com.krishapps.kalakar.AuthenticationFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.krishapps.kalakar.MainActivity;
+import com.krishapps.kalakar.R;
 
 import java.util.HashMap;
 

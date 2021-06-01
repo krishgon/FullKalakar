@@ -1,4 +1,4 @@
-package com.krishapps.kalakar;
+package com.krishapps.kalakar.customClasses;
 
 public class Artist {
     public Artist(String name, String userName, String city, Float rating, String skill) {

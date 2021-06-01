@@ -13,6 +13,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.krishapps.kalakar.MainFragments.AccountFragment;
+import com.krishapps.kalakar.MainFragments.DmFragment;
+import com.krishapps.kalakar.MainFragments.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.krishapps.kalakar;
+package com.krishapps.kalakar.AuthenticationFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.krishapps.kalakar.MainActivity;
+import com.krishapps.kalakar.R;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

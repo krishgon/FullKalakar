@@ -1,4 +1,4 @@
-package com.krishapps.kalakar;
+package com.krishapps.kalakar.MainFragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +21,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.krishapps.kalakar.Authentication;
+import com.krishapps.kalakar.R;
 
 public class AccountFragment  extends Fragment {
     public AccountFragment(){
