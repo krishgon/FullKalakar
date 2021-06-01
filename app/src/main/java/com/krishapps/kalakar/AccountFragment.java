@@ -1,5 +1,6 @@
 package com.krishapps.kalakar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -73,10 +75,22 @@ public class AccountFragment  extends Fragment {
             logOut_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    registration.remove();
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getActivity(), Authentication.class);
-                    startActivity(intent);
+                    new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme)
+                            .setTitle("Are you sure you want to log out?")
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    registration.remove();
+                                    FirebaseAuth.getInstance().signOut();
+                                    Intent intent = new Intent(getActivity(), Authentication.class);
+                                    startActivity(intent);
+                                }
+                            }).show();
                 }
             });
 
