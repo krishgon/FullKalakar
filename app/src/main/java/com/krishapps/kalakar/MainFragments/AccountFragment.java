@@ -1,11 +1,15 @@
 package com.krishapps.kalakar.MainFragments;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,12 +33,13 @@ public class AccountFragment  extends Fragment {
         super(R.layout.account_fragment);
     }
 
-    Button logOut_button;
+    Button logOut_button, deleteAccount_button;
     TextView user_name_textView, user_userName_textView, userMail_textView, userPhNum_textView;
     FirebaseAuth firebaseAuth;
-    FirebaseFirestore firestore;
+    FirebaseFirestore fireStore;
     String userID;
     DocumentReference documentReference;
+    ImageView user_pp;
 
 
     @Override
@@ -43,19 +48,21 @@ public class AccountFragment  extends Fragment {
         Log.d("krishlog", "onViewCreated: reached here in this fragment");
 
         // collect the ui elements
+            deleteAccount_button = view.findViewById(R.id.deleteAccount_button);
             logOut_button = view.findViewById(R.id.logOut_button_original);
             user_name_textView = view.findViewById(R.id.userName_textView);
             user_userName_textView = view.findViewById(R.id.userUserName_textView);
             userMail_textView = view.findViewById(R.id.userMail_textView);
             userPhNum_textView = view.findViewById(R.id.userPhNum_textView);
+            user_pp = view.findViewById(R.id.user_pp);
 
         // collect the data of signed user
             firebaseAuth = FirebaseAuth.getInstance();
-            firestore = FirebaseFirestore.getInstance();
+            fireStore = FirebaseFirestore.getInstance();
 
             userID = firebaseAuth.getCurrentUser().getUid();
 
-            documentReference = firestore.collection("users").document(userID);
+            documentReference = fireStore.collection("users").document(userID);
             ListenerRegistration registration = documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
@@ -70,8 +77,6 @@ public class AccountFragment  extends Fragment {
                     }
                 }
             });
-
-
 
         // logout the user when clicked on log out button
             logOut_button.setOnClickListener(new View.OnClickListener() {
@@ -96,5 +101,27 @@ public class AccountFragment  extends Fragment {
                 }
             });
 
+        // change profile image when clicked on the 'delete account button' ~ just for initial testing purpose
+            user_pp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // open gallery
+                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(galleryIntent, 1000);
+                }
+            });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1000){
+            if (resultCode== Activity.RESULT_OK){
+                Uri imageUri = data.getData();
+                user_pp.setImageURI(imageUri);
+            }
+        }
     }
 }
+
+//TODO: Replace all the deprecated methods with the latest methods in every java file
