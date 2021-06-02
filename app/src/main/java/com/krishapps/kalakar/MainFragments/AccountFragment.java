@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,8 +27,14 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.krishapps.kalakar.Authentication;
 import com.krishapps.kalakar.R;
+import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 public class AccountFragment  extends Fragment {
     public AccountFragment(){
@@ -40,6 +48,7 @@ public class AccountFragment  extends Fragment {
     String userID;
     DocumentReference documentReference;
     ImageView user_pp;
+    StorageReference storageReference, fileReference;
 
 
     @Override
@@ -56,12 +65,13 @@ public class AccountFragment  extends Fragment {
             userPhNum_textView = view.findViewById(R.id.userPhNum_textView);
             user_pp = view.findViewById(R.id.user_pp);
 
-        // collect the data of signed user
+        // collect firebase pieces
             firebaseAuth = FirebaseAuth.getInstance();
             fireStore = FirebaseFirestore.getInstance();
+            storageReference = FirebaseStorage.getInstance().getReference();
 
+        // collect the data of signed user
             userID = firebaseAuth.getCurrentUser().getUid();
-
             documentReference = fireStore.collection("users").document(userID);
             ListenerRegistration registration = documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
@@ -75,6 +85,20 @@ public class AccountFragment  extends Fragment {
                         user_userName_textView.setText(documentSnapshot.getString("userName"));
                         userMail_textView.setVisibility(View.INVISIBLE);
                     }
+                }
+            });
+
+        // load the profile picture automatically
+            StorageReference profileRef = storageReference.child("profile.jpg");
+            profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).into(user_pp);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull @NotNull Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -118,9 +142,32 @@ public class AccountFragment  extends Fragment {
         if (requestCode==1000){
             if (resultCode== Activity.RESULT_OK){
                 Uri imageUri = data.getData();
-                user_pp.setImageURI(imageUri);
+//                user_pp.setImageURI(imageUri);
+
+                uploadImageToFirebase(imageUri);
             }
         }
+    }
+
+    private void uploadImageToFirebase(Uri imageUri) {
+        fileReference = storageReference.child("profile.jpg");
+        fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d("krishlog", "onSuccess: image uploaded");
+                fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(user_pp);
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 
