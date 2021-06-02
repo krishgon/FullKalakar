@@ -1,14 +1,8 @@
 package com.krishapps.kalakar.customClasses;
 
-public class Artist {
-    public Artist(String name, String userName, String city, Float rating, String skill) {
-        this.name = name;
-        this.userName = userName;
-        this.city = city;
-        this.rating = rating;
-        this.skill = skill;
-    }
+import java.io.Serializable;
 
+public class Artist {
     public String getName() {
         return name;
     }
@@ -49,10 +43,37 @@ public class Artist {
         this.skill = skill;
     }
 
+    public Integer getCustomerServed() {
+        return customerServed;
+    }
+
+    public void setCustomerServed(Integer customerServed) {
+        this.customerServed = customerServed;
+    }
+
+    public Service[] getServices() {
+        return services;
+    }
+
+    public void setServices(Service[] services) {
+        this.services = services;
+    }
+
     private String name;
     private String userName;
     private String city;
     private Float rating;
     private String skill;
+    private Integer customerServed;
+    private Service[] services;
+
+
+    public Artist(String name, String userName, String city, Float rating, String skill) {
+        this.name = name;
+        this.userName = userName;
+        this.city = city;
+        this.rating = rating;
+        this.skill = skill;
+    }
     //TODO: do something about the profile pic
 }

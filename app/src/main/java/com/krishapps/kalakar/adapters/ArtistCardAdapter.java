@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
+import com.google.gson.Gson;
 import com.krishapps.kalakar.ArtistProfile;
 import com.krishapps.kalakar.Authentication;
 import com.krishapps.kalakar.MainActivity;
@@ -50,13 +51,6 @@ public class ArtistCardAdapter extends RecyclerView.Adapter<ArtistCardAdapter.Vi
         skill_chip = view.findViewById(R.id.skill_chip);
         artist_ratingBar = view.findViewById(R.id.artist_ratingBar);
 
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("krishlog", "onClick: the card is clicked");
-//            }
-//        });
-
         return new ViewHolder(view);
     }
 
@@ -75,6 +69,9 @@ public class ArtistCardAdapter extends RecyclerView.Adapter<ArtistCardAdapter.Vi
             public void onClick(View v) {
                 Log.d("krishlog", "onClick: the card of " + localDataSet[position].getName() + " is clicked");
                 Intent intent = new Intent(context, ArtistProfile.class);
+                Gson gson = new Gson();
+                String artistJson = gson.toJson(localDataSet[position]);
+                intent.putExtra("artist_json", artistJson);
                 context.startActivity(intent);
             }
         });

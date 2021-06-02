@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.krishapps.kalakar.customClasses.Artist;
 import com.krishapps.kalakar.adapters.ArtistCardAdapter;
 import com.krishapps.kalakar.R;
+import com.krishapps.kalakar.customClasses.Service;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,27 +48,20 @@ public class HomeFragment extends Fragment {
             Artist a2 = new Artist("Raghav Agrawal", "ragnag23", "Nagpur", 4.5f, "Guitarist");
             Artist a3 = new Artist("Anushree", "anu3431", "Gondia", 4.3f, "Cook");
 
+            Service s1 = new Service("playing casio", "at 100 rupees per 30 mins");
+            Service s2 = new Service("playing guitar", "at 10 rupees per min");
+            Service s3 = new Service("being a cook", "at 500 rupees per meal");
+            Service s4 = new Service("painting on a wall", "at 1000 rupees per wall");
+
+            a1.setServices(new Service[]{s1, s2});
+            a2.setServices(new Service[]{s2});
+            a3.setServices(new Service[]{s3, s4});
+
             mArtists = new Artist[]{a1, a2, a3};
 
         // setup the recycler view
             artists_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             ArtistCardAdapter adapter = new ArtistCardAdapter(mArtists);
             artists_recyclerView.setAdapter(adapter);
-            artists_recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-                @Override
-                public boolean onInterceptTouchEvent(@NonNull @NotNull RecyclerView rv, @NonNull @NotNull MotionEvent e) {
-                    return false;
-                }
-
-                @Override
-                public void onTouchEvent(@NonNull @NotNull RecyclerView rv, @NonNull @NotNull MotionEvent e) {
-
-                }
-
-                @Override
-                public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-                }
-            });
     }
 }
