@@ -89,7 +89,7 @@ public class AccountFragment  extends Fragment {
             });
 
         // load the profile picture automatically
-            StorageReference profileRef = storageReference.child("profile.jpg");
+            StorageReference profileRef = storageReference.child("users/" + firebaseAuth.getCurrentUser().getUid() + "/profile.jpg");
             profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
@@ -150,7 +150,7 @@ public class AccountFragment  extends Fragment {
     }
 
     private void uploadImageToFirebase(Uri imageUri) {
-        fileReference = storageReference.child("profile.jpg");
+        fileReference = storageReference.child("users/" + firebaseAuth.getCurrentUser().getUid() + "/profile.jpg");
         fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -172,3 +172,4 @@ public class AccountFragment  extends Fragment {
 }
 
 //TODO: Replace all the deprecated methods with the latest methods in every java file
+//TODO: Show a dialog to user, asking to crop the selected photo when choosing the profile pic
