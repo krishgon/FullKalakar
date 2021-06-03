@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -36,12 +37,14 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+
 public class AccountFragment  extends Fragment {
     public AccountFragment(){
         super(R.layout.account_fragment);
     }
 
-    Button logOut_button, deleteAccount_button;
+    Button logOut_button, deleteAccount_button, editProfile_button;
     TextView user_name_textView, user_userName_textView, userMail_textView, userPhNum_textView;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore fireStore;
@@ -49,6 +52,7 @@ public class AccountFragment  extends Fragment {
     DocumentReference documentReference;
     ImageView user_pp;
     StorageReference storageReference, fileReference;
+    Uri currentPP_uri;
 
 
     @Override
@@ -57,22 +61,23 @@ public class AccountFragment  extends Fragment {
         Log.d("krishlog", "onViewCreated: reached here in this fragment");
 
         // collect the ui elements
-            deleteAccount_button = view.findViewById(R.id.deleteAccount_button);
+           deleteAccount_button = view.findViewById(R.id.deleteAccount_button);
             logOut_button = view.findViewById(R.id.logOut_button_original);
             user_name_textView = view.findViewById(R.id.userName_textView);
             user_userName_textView = view.findViewById(R.id.userUserName_textView);
             userMail_textView = view.findViewById(R.id.userMail_textView);
             userPhNum_textView = view.findViewById(R.id.userPhNum_textView);
             user_pp = view.findViewById(R.id.user_pp);
+            editProfile_button = view.findViewById(R.id.editProfile_button);
 
         // collect firebase pieces
             firebaseAuth = FirebaseAuth.getInstance();
             fireStore = FirebaseFirestore.getInstance();
             storageReference = FirebaseStorage.getInstance().getReference();
-
-        // collect the data of signed user
             userID = firebaseAuth.getCurrentUser().getUid();
             documentReference = fireStore.collection("users").document(userID);
+
+        // collect the data of signed user
             ListenerRegistration registration = documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
@@ -93,6 +98,7 @@ public class AccountFragment  extends Fragment {
             profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
+                    currentPP_uri = uri;
                     Picasso.get().load(uri).into(user_pp);
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -125,50 +131,37 @@ public class AccountFragment  extends Fragment {
                 }
             });
 
-        // change profile image when clicked on the 'delete account button' ~ just for initial testing purpose
-            user_pp.setOnClickListener(new View.OnClickListener() {
+        // send user to edit page when clicked on edit profile
+            editProfile_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // open gallery
-                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(galleryIntent, 1000);
+                    goToEditPage();
                 }
             });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1000){
-            if (resultCode== Activity.RESULT_OK){
-                Uri imageUri = data.getData();
-//                user_pp.setImageURI(imageUri);
+    private void goToEditPage(){
+        // prepare the user data to pass
+            Bundle userData = new Bundle();
+                userData.putString("user's name", user_name_textView.getText().toString());
+                userData.putString("user's pp", currentPP_uri.toString());
+                userData.putString("user's user name", user_userName_textView.getText().toString());
+                userData.putString("user's phone number", userPhNum_textView.getText().toString());
 
-                uploadImageToFirebase(imageUri);
-            }
-        }
+        // make the fragment view full screen
+            BottomNavigationView navigationView = getActivity().findViewById(R.id.bottom_navigation);
+            navigationView.setVisibility(View.GONE);
+
+        // switch to edit profile fragment
+            Fragment fragment = new EditProfileFragment();
+            fragment.setArguments(userData);
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.main_fragment_container_view, fragment)
+                    .setReorderingAllowed(true)
+                    .addToBackStack(null)
+                    .commit();
     }
 
-    private void uploadImageToFirebase(Uri imageUri) {
-        fileReference = storageReference.child("users/" + firebaseAuth.getCurrentUser().getUid() + "/profile.jpg");
-        fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d("krishlog", "onSuccess: image uploaded");
-                fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(user_pp);
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull @NotNull Exception e) {
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
 
 //TODO: Replace all the deprecated methods with the latest methods in every java file
