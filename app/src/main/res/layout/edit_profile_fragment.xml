@@ -43,7 +43,7 @@
     <Button
         android:id="@+id/changePP_button"
         style="@style/Widget.Kalakar.Button"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change"
         android:textSize="15sp"
@@ -68,6 +68,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.Kalakar.TextInputLayout.Large"
+        app:boxStrokeColor="@color/gray_light_slate"
         android:id="@+id/editName_textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,6 +79,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editName_textInputEditText"
             style="@style/Widget.Kalakar.TextInputEditText"
+            android:textColor="@color/gray_dark_slate"
             android:maxLength="50"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>

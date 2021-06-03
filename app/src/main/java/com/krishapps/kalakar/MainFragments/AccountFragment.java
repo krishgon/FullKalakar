@@ -88,7 +88,7 @@ public class AccountFragment  extends Fragment {
                         userPhNum_textView.setText(documentSnapshot.getString("phoneNumber"));
                         user_name_textView.setText(documentSnapshot.getString("fullName"));
                         user_userName_textView.setText(documentSnapshot.getString("userName"));
-                        userMail_textView.setVisibility(View.INVISIBLE);
+                        userMail_textView.setVisibility(View.GONE);
                     }
                 }
             });

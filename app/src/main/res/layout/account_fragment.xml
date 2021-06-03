@@ -71,7 +71,7 @@
                         android:fontFamily="@font/ubuntu"
                         android:text="krishgondia@gmail.com"
                         android:textColor="@color/gray_dark_slate"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/userPhNum_textView"
@@ -82,7 +82,7 @@
                         android:gravity="bottom"
                         android:text="9285276039"
                         android:textColor="@color/gray_dark_slate"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
             </LinearLayout>
