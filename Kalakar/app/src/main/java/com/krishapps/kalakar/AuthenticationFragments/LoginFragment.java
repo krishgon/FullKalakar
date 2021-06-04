@@ -151,12 +151,12 @@ public class LoginFragment extends Fragment {
                     super.onCodeSent(s, forceResendingToken);
                     verificationId = s;
                     token = forceResendingToken;
-
-                    phNum_layout.setVisibility(View.GONE);
-                    OTP_layout.setVisibility(View.VISIBLE);
+                    // show the enter OTP screen
+                        phNum_layout.setVisibility(View.GONE);
+                        OTP_layout.setVisibility(View.VISIBLE);
 
                     // start the 1 minute timer
-                    timer.start();
+                        timer.start();
                 }
             };
 
@@ -173,28 +173,28 @@ public class LoginFragment extends Fragment {
             verify_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // get the OTP
+                    // check if otp typed
+                        if(OTP_editText.getText().toString().isEmpty()){
+                            OTP_textInputLayout.setError("Sorry ham khali hat nhi jane dege");
+                            return;
+                        }
 
-                    if(OTP_editText.getText().toString().isEmpty()){
-                        OTP_textInputLayout.setError("Sorry ham khali hat nhi jane dege");
-                        return;
-                    }
-
-                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, OTP_editText.getText().toString());
-                    authenticateUser(credential);
+                    // authenticate the user
+                        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, OTP_editText.getText().toString());
+                        authenticateUser(credential);
                 }
             });
     }
 
     public void verifyPhoneNumber(String phoneNum){
         // send OTP
-        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(fAuth)
-                .setActivity(getActivity())
-                .setPhoneNumber(phoneNum)
-                .setTimeout(2L, TimeUnit.SECONDS)
-                .setCallbacks(callbacks)
-                .build();
-        PhoneAuthProvider.verifyPhoneNumber(options);
+            PhoneAuthOptions options = PhoneAuthOptions.newBuilder(fAuth)
+                    .setActivity(getActivity())
+                    .setPhoneNumber(phoneNum)
+                    .setTimeout(2L, TimeUnit.SECONDS)
+                    .setCallbacks(callbacks)
+                    .build();
+            PhoneAuthProvider.verifyPhoneNumber(options);
 
     }
 

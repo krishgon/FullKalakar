@@ -1,3 +1,9 @@
 <resources>
+    <string name="otp"><u>Resend OTP</u></string>
+    <string name="searchHint">Search artists, skills, city, anything</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
     <string name="app_name">KalakarBuisness</string>
 </resources>
