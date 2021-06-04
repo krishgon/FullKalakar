@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -164,7 +165,7 @@ public class LoginFragment extends Fragment {
         fAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                switchToHomePage();
+                switchToArtistDetails();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -174,13 +175,18 @@ public class LoginFragment extends Fragment {
         });
     }
 
-//    public void switchToUserDetails(){
-//        Fragment fragment = new UserDetailsFragment();
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.authentication_fragment_container_view, fragment)
-//                .commit();
-//    }
+    public void switchToArtistDetails(){
+        // make the fragment container view full screen
+            LinearLayout appLogo_layout = getActivity().findViewById(R.id.appLogo_layout);
+            appLogo_layout.setVisibility(View.GONE);
+
+        // switch fragment
+            Fragment fragment = new RoughDetailsFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.authentication_fragment_container_view, fragment)
+                    .commit();
+    }
 
     public void switchToHomePage(){
         Log.d("krishlog", "switchToHomePage: going to main acitibvitb");
