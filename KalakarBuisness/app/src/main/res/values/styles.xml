@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="RatingBar" parent="Theme.KalakarBuisness">
+        <item name="colorControlActivated">@color/gray_dim</item>
+        <item name="colorControlNormal">@color/gray_light</item>
+    </style>
+</resources>

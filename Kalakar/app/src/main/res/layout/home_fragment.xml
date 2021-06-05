@@ -1,134 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pink_light"
-    android:isScrollContainer="true">
-
-    <TextView
-        android:id="@+id/appLogo_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/ubuntu_medium"
-        android:text="@string/app_name"
-        android:textColor="@color/gray_dark_slate"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/qr_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/appLogo_textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_qr_code_scanner_34"
-        app:tint="@color/gray_dark_slate" />
+    android:fillViewport="true">
 
     <LinearLayout
-        android:id="@+id/city_layout_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/appLogo_textView"
-        app:layout_constraintTop_toBottomOf="@+id/appLogo_textView">
-
-        <ImageView
-            android:id="@+id/pin_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_baseline_location_on_24"
-            app:tint="@color/blue_slate_medium" />
-
-        <TextView
-            android:id="@+id/cityName_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/ubuntu"
-            android:text="Mumbai"
-            android:textColor="@color/blue_slate_medium"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/search_outlinedTextField"
-        style="@style/Widget.Kalakar.TextInputLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="16dp"
-        android:visibility="visible"
-        app:boxStrokeColor="@color/gray_light_slate"
-        app:errorEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city_layout_button"
-        app:startIconDrawable="@drawable/ic_baseline_search_24">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/pink_light"
+                android:isScrollContainer="true">
 
-        <com.google.android.material.textfield.TextInputEditText
-            style="@style/Widget.Kalakar.TextInputEditText"
-            android:inputType="text"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/appLogo_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:text="@string/app_name"
+                    android:textColor="@color/gray_dark_slate"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@+id/search_outlinedTextField"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/search_outlinedTextField"
-        app:layout_constraintTop_toBottomOf="@+id/search_outlinedTextField">
+                <ImageView
+                    android:id="@+id/qr_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/appLogo_textView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_qr_code_scanner_34"
+                    app:tint="@color/gray_dark_slate" />
 
-        <View
-            android:layout_width="50dp"
-            android:layout_height="3dp"
-            android:background="@color/white" />
+                <LinearLayout
+                    android:id="@+id/city_layout_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/appLogo_textView"
+                    app:layout_constraintTop_toBottomOf="@+id/appLogo_textView">
 
-        <View
-            android:layout_width="50dp"
-            android:layout_height="3dp"
-            android:layout_marginTop="4dp"
-            android:background="@color/white" />
+                    <ImageView
+                        android:id="@+id/pin_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_baseline_location_on_24"
+                        app:tint="@color/blue_slate_medium" />
 
+                    <TextView
+                        android:id="@+id/cityName_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/ubuntu"
+                        android:text="Mumbai"
+                        android:textColor="@color/blue_slate_medium"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/search_outlinedTextField"
+                    style="@style/Widget.Kalakar.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:visibility="visible"
+                    app:boxStrokeColor="@color/gray_light_slate"
+                    app:errorEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/city_layout_button"
+                    app:startIconDrawable="@drawable/ic_baseline_search_24">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/Widget.Kalakar.TextInputEditText"
+                        android:inputType="text"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="@+id/search_outlinedTextField"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/search_outlinedTextField"
+                    app:layout_constraintTop_toBottomOf="@+id/search_outlinedTextField">
+
+                    <View
+                        android:layout_width="50dp"
+                        android:layout_height="3dp"
+                        android:background="@color/white" />
+
+                    <View
+                        android:layout_width="50dp"
+                        android:layout_height="3dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@color/white" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/subTitle_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:elevation="8dp"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:text="Meet your kalakar's: "
+                    android:textColor="@color/gray_dark_slate"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/search_outlinedTextField"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/artists_recyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/subTitle_textView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/subTitle_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:elevation="8dp"
-        android:fontFamily="@font/ubuntu_medium"
-        android:text="Meet your kalakar's: "
-        android:textColor="@color/gray_dark_slate"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/search_outlinedTextField"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/artists_recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subTitle_textView" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

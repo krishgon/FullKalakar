@@ -1,257 +1,269 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pink_light"
-    tools:context=".ArtistProfile">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-        app:tint="@color/pink_dark" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:srcCompat="@drawable/ic_baseline_share_24"
-        app:tint="@color/pink_dark" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_bookmark_add_24"
-        app:tint="@color/pink_dark" />
+    android:fillViewport="true">
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="vertical"
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/artist_pp"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:src="@drawable/profile_pic"
-                app:civ_border_color="@color/gray_light"
-                app:civ_border_width="4dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/artistProfileName_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ubuntu_light"
-                    android:text="Soumya Agrawal"
-                    android:textColor="@color/pink_dark"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/artistProfileUserName_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ubuntu_light"
-                    android:text="sumasu21"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/artistProfileCity_chip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Mumbai"
-                    android:textColor="@color/pink_dark"
-                    android:textSize="14sp"
-                    app:chipBackgroundColor="@color/white"
-                    app:chipIcon="@drawable/ic_baseline_location_on_24"
-                    app:chipIconSize="18dp"
-                    app:chipIconTint="@color/pink_dark"
-                    app:chipStartPadding="6dp"
-                    app:chipStrokeColor="@color/orchid"
-                    app:chipStrokeWidth="2dp" />
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <RatingBar
-                        android:id="@+id/artistProfile_ratingBar"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:numStars="5"
-                        android:rating="4.5"
-                        android:theme="@style/RatingBar" />
-                </FrameLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:background="@color/pink_light"
+            tools:context=".ArtistProfile">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/artistProfileSkill_chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Guitarist"
-                android:textColor="@color/gray_light_slate"
-                android:textSize="14sp"
-                app:chipBackgroundColor="@color/white"
-                app:chipIcon="@drawable/ic_baseline_done_24"
-                app:chipIconSize="18dp"
-                app:chipIconTint="@color/gray_light_slate"
-                app:chipStartPadding="6dp"
-                app:chipStrokeColor="@color/gray_light"
-                app:chipStrokeWidth="2dp" />
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+                app:tint="@color/pink_dark" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:gravity="top"
-            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:srcCompat="@drawable/ic_baseline_share_24"
+                app:tint="@color/pink_dark" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_baseline_bookmark_add_24"
+                app:tint="@color/pink_dark" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/artistProfileStartingRate_chip"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Starting from ₹500"
-                    android:textColor="@color/pink_dark"
-                    android:textSize="14sp"
-                    app:chipBackgroundColor="@color/white"
-                    app:chipIcon="@drawable/ic_baseline_price_check_24"
-                    app:chipIconSize="18dp"
-                    app:chipIconTint="@color/pink_dark"
-                    app:chipStartPadding="6dp"
-                    app:chipStrokeColor="@color/orchid"
-                    app:chipStrokeWidth="2dp" />
+                    android:gravity="center_vertical">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/artistProfileCustomersServed_chip"
-                    android:layout_width="wrap_content"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/artist_pp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/profile_pic"
+                        app:civ_border_color="@color/gray_light"
+                        app:civ_border_width="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/artistProfileName_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/ubuntu_light"
+                            android:text="Soumya Agrawal"
+                            android:textColor="@color/pink_dark"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/artistProfileUserName_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/ubuntu_light"
+                            android:text="sumasu21"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/artistProfileCity_chip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Mumbai"
+                            android:textColor="@color/pink_dark"
+                            android:textSize="14sp"
+                            app:chipBackgroundColor="@color/white"
+                            app:chipIcon="@drawable/ic_baseline_location_on_24"
+                            app:chipIconSize="18dp"
+                            app:chipIconTint="@color/pink_dark"
+                            app:chipStartPadding="6dp"
+                            app:chipStrokeColor="@color/orchid"
+                            app:chipStrokeWidth="2dp" />
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <RatingBar
+                                android:id="@+id/artistProfile_ratingBar"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:numStars="5"
+                                android:rating="4.5"
+                                android:theme="@style/RatingBar" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/artistProfileSkill_chip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guitarist"
+                        android:textColor="@color/gray_light_slate"
+                        android:textSize="14sp"
+                        app:chipBackgroundColor="@color/white"
+                        app:chipIcon="@drawable/ic_baseline_done_24"
+                        app:chipIconSize="18dp"
+                        app:chipIconTint="@color/gray_light_slate"
+                        app:chipStartPadding="6dp"
+                        app:chipStrokeColor="@color/gray_light"
+                        app:chipStrokeWidth="2dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-13dp"
-                    android:text="Served 15 customers"
-                    android:textColor="@color/pink_dark"
-                    android:textSize="14sp"
-                    app:chipBackgroundColor="@color/white"
-                    app:chipIcon="@drawable/ic_baseline_delivery_dining_24"
-                    app:chipIconSize="18dp"
-                    app:chipIconTint="@color/pink_dark"
-                    app:chipStartPadding="6dp"
-                    app:chipStrokeColor="@color/orchid"
-                    app:chipStrokeWidth="2dp" />
+                    android:layout_gravity="top"
+                    android:gravity="top"
+                    android:orientation="horizontal">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/artistProfileStartingRate_chip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Starting from ₹500"
+                            android:textColor="@color/pink_dark"
+                            android:textSize="14sp"
+                            app:chipBackgroundColor="@color/white"
+                            app:chipIcon="@drawable/ic_baseline_price_check_24"
+                            app:chipIconSize="18dp"
+                            app:chipIconTint="@color/pink_dark"
+                            app:chipStartPadding="6dp"
+                            app:chipStrokeColor="@color/orchid"
+                            app:chipStrokeWidth="2dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/artistProfileCustomersServed_chip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-13dp"
+                            android:text="Served 15 customers"
+                            android:textColor="@color/pink_dark"
+                            android:textSize="14sp"
+                            app:chipBackgroundColor="@color/white"
+                            app:chipIcon="@drawable/ic_baseline_delivery_dining_24"
+                            app:chipIconSize="18dp"
+                            app:chipIconTint="@color/pink_dark"
+                            app:chipStartPadding="6dp"
+                            app:chipStrokeColor="@color/orchid"
+                            app:chipStrokeWidth="2dp" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:id="@+id/button"
+                            style="@style/Widget.Kalakar.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|right"
+                            android:text="Chat"
+                            app:icon="@drawable/ic_baseline_chat_bubble_24"
+                            app:iconGravity="textStart"
+                            app:iconSize="18sp" />
+                    </FrameLayout>
+                </LinearLayout>
             </LinearLayout>
 
-            <FrameLayout
+            <LinearLayout
+                android:id="@+id/linearLayout6"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="25dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/artistServices_recyclerView"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout5"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
-                <Button
-                    android:id="@+id/button"
-                    style="@style/Widget.Kalakar.Button"
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    app:srcCompat="@drawable/ic_baseline_library_books_24"
+                    app:tint="@color/gray_dim" />
+
+                <TextView
+                    android:id="@+id/servicesTitle_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:text="Chat"
-                    app:icon="@drawable/ic_baseline_chat_bubble_24"
-                    app:iconGravity="textStart"
-                    app:iconSize="18sp" />
-            </FrameLayout>
-        </LinearLayout>
+                    android:layout_marginLeft="6dp"
+                    android:fontFamily="@font/ubuntu_light"
+                    android:text="Soumya's Services"
+                    android:textColor="@color/gray_dim"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/artistServices_recyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout6"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout6"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="25dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/artistServices_recyclerView"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout5"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
-            app:srcCompat="@drawable/ic_baseline_library_books_24"
-            app:tint="@color/gray_dim" />
-
-        <TextView
-            android:id="@+id/servicesTitle_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:fontFamily="@font/ubuntu_light"
-            android:text="Soumya's Services"
-            android:textColor="@color/gray_dim"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/artistServices_recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout6"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

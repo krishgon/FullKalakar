@@ -66,6 +66,12 @@ public class ArtistProfile extends AppCompatActivity {
 
 
         // set up the recycler view
+//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext()){
+//                @Override
+//                public boolean canScrollVertically() {
+//                    return false;
+//                }
+//            };
             services_recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             ServiceCardAdapter adapter = new ServiceCardAdapter(artist.getServices());
             services_recyclerView.setAdapter(adapter);

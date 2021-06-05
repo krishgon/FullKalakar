@@ -53,6 +53,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
 
         Context context = holder.itemView.getContext();
 
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
