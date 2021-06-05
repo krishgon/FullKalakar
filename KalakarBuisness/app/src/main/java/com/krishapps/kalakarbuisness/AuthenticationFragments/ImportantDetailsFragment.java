@@ -1,5 +1,6 @@
 package com.krishapps.kalakarbuisness.AuthenticationFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.krishapps.kalakarbuisness.Artist;
+import com.krishapps.kalakarbuisness.CustomClasses.Artist;
+import com.krishapps.kalakarbuisness.MainActivity;
 import com.krishapps.kalakarbuisness.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -47,7 +49,12 @@ public class ImportantDetailsFragment extends Fragment {
                 // log the details
                     Log.d("krishlog", "onClick:" + currentOne.getName() + "(" + currentOne.getUserName() + ") is a " + currentOne.getSkill() + " and lives in " + currentOne.getCity() + ". His email is " + currentOne.getEmail() + ".");
 
+                // prepare artist to pass
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.putExtra("artist", currentOne);
 
+                // go to main activity
+                    startActivity(intent);
             }
         });    
     }

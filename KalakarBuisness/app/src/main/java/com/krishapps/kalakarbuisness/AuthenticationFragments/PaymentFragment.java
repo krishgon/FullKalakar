@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.krishapps.kalakarbuisness.Artist;
+import com.krishapps.kalakarbuisness.CustomClasses.Artist;
 import com.krishapps.kalakarbuisness.R;
 
 import org.jetbrains.annotations.NotNull;

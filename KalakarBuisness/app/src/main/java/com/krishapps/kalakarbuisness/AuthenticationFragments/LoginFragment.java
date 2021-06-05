@@ -50,9 +50,9 @@ public class LoginFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // check if the user is already signed in
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            switchToHomePage();
-        }
+//        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+//            switchToHomePage();
+//        }
         Log.d("krishlog", "onCreate: passed the on create of login frag");
     }
 

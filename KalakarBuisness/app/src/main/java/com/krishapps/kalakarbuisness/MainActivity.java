@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.krishapps.kalakarbuisness.CustomClasses.Artist;
 import com.krishapps.kalakarbuisness.MainFragments.AccountFragment;
 import com.krishapps.kalakarbuisness.MainFragments.DmFragment;
 import com.krishapps.kalakarbuisness.MainFragments.ProfileFragment;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Fragment profFrag, accFrag, dmFrag;
     private FragmentManager fragmentManager;
+    public static Artist artist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(getResources().getColor(R.color.pink_light));
+
+        // collect the artist object which was passed
+            Intent intent = getIntent();
+            artist = (Artist) intent.getSerializableExtra("artist");
 
         // collect the fragment manager
             fragmentManager = getSupportFragmentManager();

@@ -1,4 +1,4 @@
-package com.krishapps.kalakarbuisness;
+package com.krishapps.kalakarbuisness.CustomClasses;
 
 import java.io.Serializable;
 
@@ -52,10 +52,35 @@ public class Artist implements Serializable {
         return artistID;
     }
 
+    public Service[] getServices() {
+        return services;
+    }
+
+    public void setServices(Service[] services) {
+        this.services = services;
+    }
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+    public int getCustomerServed() {
+        return customerServed;
+    }
+
+    public void setCustomerServed(int customerServed) {
+        this.customerServed = customerServed;
+    }
+
     private String artistID;
     private String name;
     private String email;
     private String userName;
     private String city;
     private String skill;
+    private Float rating;
+    private int customerServed;
+    private Service[] services;
 }

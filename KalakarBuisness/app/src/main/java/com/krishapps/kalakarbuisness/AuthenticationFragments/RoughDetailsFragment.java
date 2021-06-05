@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,8 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.Gson;
-import com.krishapps.kalakarbuisness.Artist;
+import com.krishapps.kalakarbuisness.CustomClasses.Artist;
 import com.krishapps.kalakarbuisness.R;
 
 import org.jetbrains.annotations.NotNull;
