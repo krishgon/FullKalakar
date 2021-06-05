@@ -39,9 +39,10 @@ public class RoughDetailsFragment extends Fragment {
                         String name = artistName_editText.getText().toString();
                         String email = artistEmail_editText.getText().toString();
                         String artistID = FirebaseAuth.getInstance().getUid();
+                        String artistPhoneNumber = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
 
                     // prepare the artist object
-                        Artist currentOne = new Artist(artistID, name);
+                        Artist currentOne = new Artist(artistID, name, artistPhoneNumber);
                         if(email.isEmpty() == false){
                             currentOne.setEmail(email);
                         }

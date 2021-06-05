@@ -3,9 +3,10 @@ package com.krishapps.kalakarbuisness.CustomClasses;
 import java.io.Serializable;
 
 public class Artist implements Serializable {
-    public Artist(String artistID, String name) {
+    public Artist(String artistID, String name, String phoneNumber) {
         this.artistID = artistID;
         this.name = name;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getName() {
@@ -74,8 +75,13 @@ public class Artist implements Serializable {
         this.customerServed = customerServed;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     private String artistID;
     private String name;
+    private String phoneNumber;
     private String email;
     private String userName;
     private String city;

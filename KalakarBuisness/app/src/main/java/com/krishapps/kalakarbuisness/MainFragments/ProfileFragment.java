@@ -49,18 +49,18 @@ public class ProfileFragment extends Fragment {
             services_recyclerView = view.findViewById(R.id.artistServices_recyclerView);
 
         // prepare artist (just for debugging purpose)
-            artist.setRating(4.5f);
-            artist.setCustomerServed(15);
-
-            // put services into artist
+//            artist.setRating(4.5f);
+//            artist.setCustomerServed(15);
+//
+//            // put services into artist
                 Service s1 = new Service("playing casio", "at 100 rupees per 30 mins");
                 Service s2 = new Service("playing guitar", "at 10 rupees per min");
                 Service s3 = new Service("being a cook", "at 500 rupees per meal");
                 Service s4 = new Service("painting on a wall", "at 1000 rupees per wall");
-
-                artist.setServices(new Service[]{s1,s2,s3});
-
-        Log.d("krishlog", "onViewCreated: artist prepared");
+//
+//                artist.setServices(new Service[]{s1,s2,s3});
+//
+//        Log.d("krishlog", "onViewCreated: artist prepared");
         Boolean bool = artist==null;
         Log.d("krishlog", "onViewCreated: " + bool.toString());
 

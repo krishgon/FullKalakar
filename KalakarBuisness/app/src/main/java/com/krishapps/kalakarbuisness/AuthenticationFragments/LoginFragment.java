@@ -49,10 +49,10 @@ public class LoginFragment extends Fragment {
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // check if the user is already signed in
-//        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-//            switchToHomePage();
-//        }
+//         check if the user is already signed in
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            switchToHomePage();
+        }
         Log.d("krishlog", "onCreate: passed the on create of login frag");
     }
 
@@ -189,7 +189,7 @@ public class LoginFragment extends Fragment {
     }
 
     public void switchToHomePage(){
-        Log.d("krishlog", "switchToHomePage: going to main acitibvitb");
+        Log.d("krishlog", "switchToHomePage: going to main activity");
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
         getActivity().finish();

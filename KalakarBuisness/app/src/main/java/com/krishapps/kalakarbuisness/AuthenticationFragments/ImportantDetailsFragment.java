@@ -12,11 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.krishapps.kalakarbuisness.CustomClasses.Artist;
 import com.krishapps.kalakarbuisness.MainActivity;
 import com.krishapps.kalakarbuisness.R;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 
 public class ImportantDetailsFragment extends Fragment {
     public ImportantDetailsFragment(){
@@ -24,6 +30,7 @@ public class ImportantDetailsFragment extends Fragment {
     }
 
     Artist currentOne;
+    FirebaseFirestore firestore;
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -51,10 +58,34 @@ public class ImportantDetailsFragment extends Fragment {
 
                 // prepare artist to pass
                     Intent intent = new Intent(getActivity(), MainActivity.class);
-                    intent.putExtra("artist", currentOne);
 
-                // go to main activity
-                    startActivity(intent);
+
+                // register the artist in the database
+                    firestore = FirebaseFirestore.getInstance();
+
+                    DocumentReference documentReference = firestore.collection("artists").document(currentOne.getArtistID());
+
+                    HashMap<String, Object> artistData = new HashMap<>();
+                    artistData.put("fullName", currentOne.getName());
+                    artistData.put("phoneNumber", currentOne.getPhoneNumber());
+                    artistData.put("userName", currentOne.getUserName());
+                    artistData.put("email", currentOne.getEmail());
+                    artistData.put("city", currentOne.getCity());
+                    artistData.put("skill", currentOne.getSkill());
+
+                    documentReference.set(artistData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d("krishlog", "onSuccess: data upload hogya");
+                            // go to main activity
+                                startActivity(intent);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull @NotNull Exception e) {
+                            Log.d("krishlog", "onFailure: " + e.getMessage());
+                        }
+                    });
             }
         });    
     }

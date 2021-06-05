@@ -1,6 +1,7 @@
 package com.krishapps.kalakarbuisness;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,9 +14,18 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.krishapps.kalakarbuisness.CustomClasses.Artist;
 import com.krishapps.kalakarbuisness.MainFragments.AccountFragment;
 import com.krishapps.kalakarbuisness.MainFragments.DmFragment;
@@ -26,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
     private Fragment profFrag, accFrag, dmFrag;
     private FragmentManager fragmentManager;
     public static Artist artist;
+    public static ListenerRegistration registration;
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore fireStore;
+    StorageReference storageReference;
+    DocumentReference documentReference;
+    String artistID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +59,39 @@ public class MainActivity extends AppCompatActivity {
             window.setStatusBarColor(getResources().getColor(R.color.pink_light));
 
         // collect the artist object which was passed
-            Intent intent = getIntent();
-            artist = (Artist) intent.getSerializableExtra("artist");
+            // collect firebase pieces
+                firebaseAuth = FirebaseAuth.getInstance();
+                fireStore = FirebaseFirestore.getInstance();
+                storageReference = FirebaseStorage.getInstance().getReference();
+                artistID = firebaseAuth.getCurrentUser().getUid();
+                documentReference = fireStore.collection("artists").document(artistID);
+
+            // collect the data of signed artist
+                 registration = documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                        if(error!=null){
+                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            artist = new Artist(artistID, documentSnapshot.getString("fullName"), documentSnapshot.getString("phoneNumber"));
+                            artist.setUserName(documentSnapshot.getString("userName"));
+                            artist.setEmail(documentSnapshot.getString("email"));
+                            artist.setCity(documentSnapshot.getString("city"));
+                            artist.setSkill(documentSnapshot.getString("skill"));
+
+                            Log.d("krishlog", "onEvent: the name of the artist is " + artist.getName());
+
+                            // set the current fragment to home fragment
+                            if(savedInstanceState == null){
+                                fragmentManager.beginTransaction()
+                                        .add(R.id.main_fragmentContainerView, profFrag)
+                                        .setReorderingAllowed(true)
+                                        .commit();
+                            }
+                        }
+                    }
+                });
 
         // collect the fragment manager
             fragmentManager = getSupportFragmentManager();
@@ -81,13 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-        // set the current fragment to home fragment
-            if(savedInstanceState == null){
-                fragmentManager.beginTransaction()
-                        .add(R.id.main_fragmentContainerView, profFrag)
-                        .setReorderingAllowed(true)
-                        .commit();
-            }
+
     }
 
     public void switchFragment(Fragment fragment){
