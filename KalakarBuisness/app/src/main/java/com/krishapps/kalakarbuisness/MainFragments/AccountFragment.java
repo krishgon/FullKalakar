@@ -16,6 +16,7 @@ import com.krishapps.kalakarbuisness.R;
 import org.jetbrains.annotations.NotNull;
 import static com.krishapps.kalakarbuisness.MainActivity.artist;
 import static com.krishapps.kalakarbuisness.MainActivity.registration;
+import static com.krishapps.kalakarbuisness.MainActivity.serviceRegistration;
 
 public class AccountFragment extends Fragment {
     public AccountFragment(){
@@ -29,6 +30,7 @@ public class AccountFragment extends Fragment {
         logOut_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                serviceRegistration.remove();
                 registration.remove();
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getActivity(), Authentication.class);
