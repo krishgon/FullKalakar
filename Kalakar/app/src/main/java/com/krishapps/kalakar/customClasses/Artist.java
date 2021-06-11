@@ -1,6 +1,7 @@
 package com.krishapps.kalakar.customClasses;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Artist {
     public String getName() {
@@ -51,11 +52,11 @@ public class Artist {
         this.customerServed = customerServed;
     }
 
-    public Service[] getServices() {
+    public ArrayList<Service> getServices() {
         return services;
     }
 
-    public void setServices(Service[] services) {
+    public void setServices(ArrayList<Service> services) {
         this.services = services;
     }
 
@@ -65,15 +66,26 @@ public class Artist {
     private Float rating;
     private String skill;
     private Integer customerServed;
-    private Service[] services;
+    private ArrayList<Service> services;
+
+    public String getDocumentID() {
+        return documentID;
+    }
+
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
+    }
+
+    private String documentID;
 
 
-    public Artist(String name, String userName, String city, Float rating, String skill) {
+    public Artist(String name, String userName, String city, Float rating, String skill, String documentID) {
         this.name = name;
         this.userName = userName;
         this.city = city;
         this.rating = rating;
         this.skill = skill;
+        this.documentID = documentID;
     }
     //TODO: do something about the profile pic
 }

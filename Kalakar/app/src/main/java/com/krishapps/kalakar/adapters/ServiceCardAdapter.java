@@ -19,9 +19,11 @@ import com.krishapps.kalakar.customClasses.Service;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.ViewHolder> {
 
-    Service[] localDataSet;
+    ArrayList<Service> localDataSet;
     TextView serviceFor_textView, serviceRate_textView;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -30,7 +32,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
         }
     }
 
-    public ServiceCardAdapter(Service[] dataSet){
+    public ServiceCardAdapter(ArrayList<Service> dataSet){
         this.localDataSet = dataSet;
     }
 
@@ -48,8 +50,8 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ServiceCardAdapter.ViewHolder holder, int position) {
-        serviceFor_textView.setText(localDataSet[position].getServiceFor());
-        serviceRate_textView.setText(localDataSet[position].getServiceRate());
+        serviceFor_textView.setText(localDataSet.get(position).getServiceFor());
+        serviceRate_textView.setText(localDataSet.get(position).getServiceRate());
 
         Context context = holder.itemView.getContext();
 
@@ -57,7 +59,7 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("krishlog", "onClick: the card of " + localDataSet[position].getServiceFor() + " is clicked");
+                Log.d("krishlog", "onClick: the card of " + localDataSet.get(position).getServiceFor() + " is clicked");
                 Intent intent = new Intent(context, ServiceProfile.class);
                 context.startActivity(intent);
             }
@@ -66,6 +68,6 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
 
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return localDataSet.size();
     }
 }

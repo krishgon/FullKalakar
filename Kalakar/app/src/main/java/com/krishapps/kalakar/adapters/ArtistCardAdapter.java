@@ -20,11 +20,13 @@ import com.krishapps.kalakar.MainActivity;
 import com.krishapps.kalakar.customClasses.Artist;
 import com.krishapps.kalakar.R;
 
+import java.util.ArrayList;
+
 import static androidx.core.content.ContextCompat.startActivity;
 
 public class ArtistCardAdapter extends RecyclerView.Adapter<ArtistCardAdapter.ViewHolder> {
 
-    private Artist[] localDataSet;
+    private ArrayList<Artist> localDataSet;
     private TextView artistName_textView, artistUserName_textView;
     private Chip city_chip, skill_chip;
     private RatingBar artist_ratingBar;
@@ -35,7 +37,8 @@ public class ArtistCardAdapter extends RecyclerView.Adapter<ArtistCardAdapter.Vi
         }
     }
 
-    public ArtistCardAdapter(Artist[] dataSet){
+    public ArtistCardAdapter(ArrayList<Artist> dataSet){
+        Log.d("krishlog", "ArtistCardAdapter: the data set is " + dataSet.toString());
         this.localDataSet = dataSet;
     }
 
@@ -56,21 +59,21 @@ public class ArtistCardAdapter extends RecyclerView.Adapter<ArtistCardAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ArtistCardAdapter.ViewHolder holder, int position) {
-        artistName_textView.setText(localDataSet[position].getName());
-        artistUserName_textView.setText(localDataSet[position].getUserName());
-        city_chip.setText(localDataSet[position].getCity());
-        skill_chip.setText(localDataSet[position].getSkill());
-        artist_ratingBar.setRating(localDataSet[position].getRating());
+        artistName_textView.setText(localDataSet.get(position).getName());
+        artistUserName_textView.setText(localDataSet.get(position).getUserName());
+        city_chip.setText(localDataSet.get(position).getCity());
+        skill_chip.setText(localDataSet.get(position).getSkill());
+        artist_ratingBar.setRating(localDataSet.get(position).getRating());
 
         Context context = holder.itemView.getContext();
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("krishlog", "onClick: the card of " + localDataSet[position].getName() + " is clicked");
+                Log.d("krishlog", "onClick: the card of " + localDataSet.get(position).getName() + " is clicked");
                 Intent intent = new Intent(context, ArtistProfile.class);
                 Gson gson = new Gson();
-                String artistJson = gson.toJson(localDataSet[position]);
+                String artistJson = gson.toJson(localDataSet.get(position));
                 intent.putExtra("artist_json", artistJson);
                 context.startActivity(intent);
             }
@@ -79,6 +82,6 @@ public class ArtistCardAdapter extends RecyclerView.Adapter<ArtistCardAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return localDataSet.size();
     }
 }

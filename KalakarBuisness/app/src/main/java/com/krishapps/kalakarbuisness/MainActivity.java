@@ -140,15 +140,17 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     if(error == null){
-                        List<DocumentSnapshot> serviceDocs = value.getDocuments();
-                        ArrayList<Service> services = new ArrayList<>();
-                        for(int i=0; i < serviceDocs.size(); i++){
-                            DocumentSnapshot ds = serviceDocs.get(i);
-                            Log.d("krishlog", "onComplete: the service for is: " + ds.getString("serviceFor"));
-                            Service s = new Service(ds.getString("serviceFor"), ds.getString("serviceRate"));
-                            services.add(s);
+                        if(value.isEmpty() == false){
+                            List<DocumentSnapshot> serviceDocs = value.getDocuments();
+                            ArrayList<Service> services = new ArrayList<>();
+                            for(int i=0; i < serviceDocs.size(); i++){
+                                DocumentSnapshot ds = serviceDocs.get(i);
+                                Log.d("krishlog", "onComplete: the service for is: " + ds.getString("serviceFor"));
+                                Service s = new Service(ds.getString("serviceFor"), ds.getString("serviceRate"));
+                                services.add(s);
+                            }
+                            artist.setServices(services);
                         }
-                        artist.setServices(services);
 
                         // set the current fragment to home fragment
                             if(savedInstanceState == null){
