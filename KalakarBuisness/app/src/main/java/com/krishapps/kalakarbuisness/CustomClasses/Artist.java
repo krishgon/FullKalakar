@@ -1,6 +1,7 @@
 package com.krishapps.kalakarbuisness.CustomClasses;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Artist implements Serializable {
     public Artist(String artistID, String name, String phoneNumber) {
@@ -53,11 +54,11 @@ public class Artist implements Serializable {
         return artistID;
     }
 
-    public Service[] getServices() {
+    public ArrayList<Service> getServices() {
         return services;
     }
 
-    public void setServices(Service[] services) {
+    public void setServices(ArrayList<Service> services) {
         this.services = services;
     }
     public Float getRating() {
@@ -88,5 +89,16 @@ public class Artist implements Serializable {
     private String skill;
     private Float rating;
     private int customerServed;
-    private Service[] services;
+    private ArrayList<Service> services;
+
+    public void addServiceToArtist(Service service){
+        if(this.services == null){
+            this.services = new ArrayList<Service>();
+        }
+        this.services.add(service);
+    }
+
+
+
+
 }

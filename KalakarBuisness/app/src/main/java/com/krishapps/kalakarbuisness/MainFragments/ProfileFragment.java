@@ -3,12 +3,15 @@ package com.krishapps.kalakarbuisness.MainFragments;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import android.util.Log;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,11 +31,12 @@ public class ProfileFragment extends Fragment {
         super(R.layout.profile_fragment);
     }
 
-//    Artist artist;
     RecyclerView services_recyclerView;
     TextView artistProfileName_textView, artistProfileUserName_textView, servicesTitle_textView;
     Chip artistProfileCity_chip, artistProfileSkill_chip, artistProfileCustomersServed_chip;
     RatingBar artistProfile_ratingBar;
+    Button addService_button;
+    ServiceCardAdapter serviceCardAdapter;
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -47,22 +51,9 @@ public class ProfileFragment extends Fragment {
             artistProfileCustomersServed_chip = view.findViewById(R.id.artistProfileCustomersServed_chip);
             servicesTitle_textView = view.findViewById(R.id.servicesTitle_textView);
             services_recyclerView = view.findViewById(R.id.artistServices_recyclerView);
+            addService_button = view.findViewById(R.id.addService_button);
 
-        // prepare artist (just for debugging purpose)
-//            artist.setRating(4.5f);
-//            artist.setCustomerServed(15);
-//
-//            // put services into artist
-                Service s1 = new Service("playing casio", "at 100 rupees per 30 mins");
-                Service s2 = new Service("playing guitar", "at 10 rupees per min");
-                Service s3 = new Service("being a cook", "at 500 rupees per meal");
-                Service s4 = new Service("painting on a wall", "at 1000 rupees per wall");
-//
-//                artist.setServices(new Service[]{s1,s2,s3});
-//
-//        Log.d("krishlog", "onViewCreated: artist prepared");
-        Boolean bool = artist==null;
-        Log.d("krishlog", "onViewCreated: " + bool.toString());
+
 
         // bind data into ui elements
             artistProfileName_textView.setText(artist.getName());
@@ -75,7 +66,26 @@ public class ProfileFragment extends Fragment {
 
         // setup the service recycler view
             services_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            ServiceCardAdapter serviceCardAdapter = new ServiceCardAdapter(new Service[]{s1,s2,s3});
+            if(artist.getServices() != null){
+                serviceCardAdapter = new ServiceCardAdapter(artist.getServices());
+            }
             services_recyclerView.setAdapter(serviceCardAdapter);
+
+        // when clicked on add service, go to add service screen
+            addService_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("krishlog", "onClick: you clicked on the button");
+
+                    Fragment fragment = new AddServiceFragment();
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_fragmentContainerView, fragment)
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+
     }
 }
