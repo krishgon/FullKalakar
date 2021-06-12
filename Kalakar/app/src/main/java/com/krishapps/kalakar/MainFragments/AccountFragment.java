@@ -3,6 +3,8 @@ package com.krishapps.kalakar.MainFragments;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,7 +36,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.krishapps.kalakar.Authentication;
 import com.krishapps.kalakar.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -44,8 +49,9 @@ public class AccountFragment  extends Fragment {
         super(R.layout.account_fragment);
     }
 
+    ConstraintLayout accountFragment_rootLayout;
     Button logOut_button, deleteAccount_button, editProfile_button;
-    TextView user_name_textView, user_userName_textView, userMail_textView, userPhNum_textView;
+    TextView user_name_textView, user_userName_textView, userMail_textView, userPhNum_textView, waitMessage_textView;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore fireStore;
     String userID;
@@ -61,7 +67,8 @@ public class AccountFragment  extends Fragment {
         Log.d("krishlog", "onViewCreated: reached here in this fragment");
 
         // collect the ui elements
-           deleteAccount_button = view.findViewById(R.id.deleteAccount_button);
+            waitMessage_textView = view.findViewById(R.id.waitMessage_textView);
+            deleteAccount_button = view.findViewById(R.id.deleteAccount_button);
             logOut_button = view.findViewById(R.id.logOut_button_original);
             user_name_textView = view.findViewById(R.id.userName_textView);
             user_userName_textView = view.findViewById(R.id.userUserName_textView);
@@ -69,6 +76,10 @@ public class AccountFragment  extends Fragment {
             userPhNum_textView = view.findViewById(R.id.userPhNum_textView);
             user_pp = view.findViewById(R.id.user_pp);
             editProfile_button = view.findViewById(R.id.editProfile_button);
+            accountFragment_rootLayout = view.findViewById(R.id.accountFragment_rootLayout);
+
+        // disable the whole layout until profile pic loads
+            accountFragment_rootLayout.setVisibility(View.GONE);
 
         // collect firebase pieces
             firebaseAuth = FirebaseAuth.getInstance();
@@ -99,7 +110,17 @@ public class AccountFragment  extends Fragment {
                 @Override
                 public void onSuccess(Uri uri) {
                     currentPP_uri = uri;
-                    Picasso.get().load(uri).into(user_pp);
+                    Picasso.get().load(uri).into(user_pp, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            waitMessage_textView.setVisibility(View.GONE);
+                            accountFragment_rootLayout.setVisibility(View.VISIBLE);
+                        }
+                        @Override
+                        public void onError(Exception e) {
+                            Log.d("krishlog", "onError: the error is " + e.getMessage());
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
