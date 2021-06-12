@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/pink_light"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/pink_light">
 
     <ImageView
         android:id="@+id/closeButton_imageView"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/ic_baseline_close_24"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_baseline_close_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/pink_dark" />
@@ -61,27 +61,39 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
-        android:text="Edit Name:"
         android:fontFamily="@font/ubuntu_medium"
+        android:text="Edit Name:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changePP_button" />
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Kalakar.TextInputLayout.Large"
-        app:boxStrokeColor="@color/gray_light_slate"
         android:id="@+id/editName_textInputLayout"
+        style="@style/Widget.Kalakar.TextInputLayout.Large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        app:boxStrokeColor="@color/gray_light_slate"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editName_textInputEditText"
             style="@style/Widget.Kalakar.TextInputEditText"
-            android:textColor="@color/gray_dark_slate"
             android:maxLength="50"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textColor="@color/gray_dark_slate" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editName_textInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

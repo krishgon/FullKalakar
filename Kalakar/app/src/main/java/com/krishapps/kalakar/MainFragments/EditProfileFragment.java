@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -31,6 +33,8 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.security.AlgorithmConstraints;
 import java.util.HashMap;
 
 public class EditProfileFragment extends Fragment {
@@ -43,12 +47,12 @@ public class EditProfileFragment extends Fragment {
     TextInputEditText editName_textInputEditText;
     Uri uri;
     String name;
-    StorageReference fileReference, storageReference;
+    ProgressBar progressBar;
+    StorageReference storageReference;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore fireStore;
     DocumentReference documentReference;
-    String userID, phoneNumber, userName;
-    Boolean toReturn;
+    String userID;
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class EditProfileFragment extends Fragment {
             okButton_imageView = view.findViewById(R.id.okButton_imageView);
             editPP_imageView = view.findViewById(R.id.editPP_imageView);
             changePP_button = view.findViewById(R.id.changePP_button);
+            progressBar = view.findViewById(R.id.progressBar);
 
         //  collect user's data
             uri = Uri.parse(requireArguments().getString("user's pp"));
@@ -68,10 +73,11 @@ public class EditProfileFragment extends Fragment {
             editName_textInputEditText.setText(name);
 
         // collect firebase elements
-            storageReference = FirebaseStorage.getInstance().getReference();
             firebaseAuth = FirebaseAuth.getInstance();
+            storageReference = FirebaseStorage.getInstance().getReference().child("users/" + firebaseAuth.getCurrentUser().getUid() + "/profile.jpg");;
             fireStore = FirebaseFirestore.getInstance();
             userID = firebaseAuth.getCurrentUser().getUid();
+            Log.d("krishlog", "onViewCreated: user id created");
             documentReference = fireStore.collection("users").document(userID);
 
         // let the user choose profile pic when clicked on change button
@@ -107,15 +113,14 @@ public class EditProfileFragment extends Fragment {
         if (requestCode==1000){
             if (resultCode== Activity.RESULT_OK){
                 uri = data.getData();
+                Log.d("krishlog", "onActivityResult: the uri is: " + uri);
                 editPP_imageView.setImageURI(uri);
             }
         }
     }
 
     public void uploadImageToFirebase(Uri imageUri) {
-        Log.d("krishlog", "uploadImageToFirebase: idhar aagae ham");
-        fileReference = storageReference.child("users/" + firebaseAuth.getCurrentUser().getUid() + "/profile.jpg");
-        fileReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.d("krishlog", "onSuccess: image uploaded");
@@ -133,21 +138,12 @@ public class EditProfileFragment extends Fragment {
         // collect new user data
             String name = editName_textInputEditText.getText().toString();
 
-        // collect old user data
-            phoneNumber = requireArguments().getString("user's phone number");
-            userName = requireArguments().getString("user's user name");
-
-        Log.d("krishlog", "updateFirebase: phone number is " + phoneNumber);
-        Log.d("krishlog", "updateFirebase: user name is " + userName);
-
         // make the hash map of the data
             HashMap<String, Object> user = new HashMap<>();
                 user.put("fullName", name);
-                user.put("phoneNumber", phoneNumber);
-                user.put("userName", userName);
 
         // update firebase (upload the hash map in firebase)
-            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            documentReference.set(user, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
                     Log.d("krishlog", "onSuccess: profile name edited");

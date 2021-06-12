@@ -94,7 +94,7 @@ public class AccountFragment  extends Fragment {
             });
 
         // load the profile picture automatically
-            StorageReference profileRef = storageReference.child("users/" + firebaseAuth.getCurrentUser().getUid() + "/profile.jpg");
+            StorageReference profileRef = storageReference.child("users/" + userID + "/profile.jpg");
             profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
@@ -145,8 +145,8 @@ public class AccountFragment  extends Fragment {
             Bundle userData = new Bundle();
                 userData.putString("user's name", user_name_textView.getText().toString());
                 userData.putString("user's pp", currentPP_uri.toString());
-                userData.putString("user's user name", user_userName_textView.getText().toString());
-                userData.putString("user's phone number", userPhNum_textView.getText().toString());
+//                userData.putString("user's user name", user_userName_textView.getText().toString());
+//                userData.putString("user's phone number", userPhNum_textView.getText().toString());
 
         // make the fragment view full screen
             BottomNavigationView navigationView = getActivity().findViewById(R.id.bottom_navigation);
