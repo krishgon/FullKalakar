@@ -2,6 +2,7 @@ package com.krishapps.kalakar.MainFragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -34,8 +35,11 @@ import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.AlgorithmConstraints;
 import java.util.HashMap;
+
+import id.zelory.compressor.Compressor;
 
 public class EditProfileFragment extends Fragment {
     public EditProfileFragment(){
@@ -53,6 +57,7 @@ public class EditProfileFragment extends Fragment {
     FirebaseFirestore fireStore;
     DocumentReference documentReference;
     String userID;
+    File compressedImageFile;
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -120,18 +125,41 @@ public class EditProfileFragment extends Fragment {
     }
 
     public void uploadImageToFirebase(Uri imageUri) {
-        storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d("krishlog", "onSuccess: image uploaded");
-                switchToAccountFrag();
+        // compress image and get the uri
+            File ppFile = new File(getPath(imageUri));
+            Log.d("krishlog", "uploadImageToFirebase: file is " + ppFile.toString());
+            try {
+                compressedImageFile = new Compressor(getContext()).compressToFile(ppFile);
+                Log.d("krishlog", "uploadImageToFirebase: com is " + compressedImageFile.toString());
+            } catch (IOException e) {
+                Log.d("krishlog", "uploadImageToFirebase: error is " + e.getMessage());
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull @NotNull Exception e) {
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+            Uri compressedUri = Uri.fromFile(compressedImageFile);
+
+        // put image in firebase storage
+            storageReference.putFile(compressedUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("krishlog", "onSuccess: image uploaded");
+                    switchToAccountFrag();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull @NotNull Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+    }
+
+    public String getPath(Uri uri){
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) return null;
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String s = cursor.getString(column_index);
+        cursor.close();
+        return s;
     }
 
     private void updateFirebase(){
