@@ -3,8 +3,10 @@ package com.krishapps.kalakar.MainFragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -129,7 +131,11 @@ public class EditProfileFragment extends Fragment {
             File ppFile = new File(getPath(imageUri));
             Log.d("krishlog", "uploadImageToFirebase: file is " + ppFile.toString());
             try {
-                compressedImageFile = new Compressor(getContext()).compressToFile(ppFile);
+                compressedImageFile = new Compressor(getContext())
+                        .setMaxWidth(250)
+                        .setMaxHeight(250)
+                        .setQuality(50)
+                        .compressToFile(ppFile);
                 Log.d("krishlog", "uploadImageToFirebase: com is " + compressedImageFile.toString());
             } catch (IOException e) {
                 Log.d("krishlog", "uploadImageToFirebase: error is " + e.getMessage());
