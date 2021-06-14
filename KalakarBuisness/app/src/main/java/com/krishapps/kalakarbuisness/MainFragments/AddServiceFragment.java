@@ -2,6 +2,7 @@ package com.krishapps.kalakarbuisness.MainFragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,14 +23,22 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.krishapps.kalakarbuisness.CustomClasses.Service;
 import com.krishapps.kalakarbuisness.R;
 import com.krishapps.kalakarbuisness.adapters.ServiceMediaAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import id.zelory.compressor.Compressor;
+
 import static com.krishapps.kalakarbuisness.MainActivity.artist;
 
 public class AddServiceFragment extends Fragment {
@@ -45,6 +54,9 @@ public class AddServiceFragment extends Fragment {
     Uri uri;
     ServiceMediaAdapter serviceMediaAdapter;
     ArrayList<Uri> mediaUris;
+    StorageReference storageReference;
+    DocumentReference documentReference;
+    File compressedImageFile;
 
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
@@ -58,6 +70,8 @@ public class AddServiceFragment extends Fragment {
         // collect firebase elements
             firebaseAuth = FirebaseAuth.getInstance();
             firestore = FirebaseFirestore.getInstance();
+            documentReference = firestore.collection("artists").document(artist.getArtistID()).collection("services").document();
+            storageReference = FirebaseStorage.getInstance().getReference().child("artists/" + artist.getArtistID() + "/services/" + documentReference.getId());
 
         // when clicked on add media, let the user choose the media
             addMedia_button.setOnClickListener(new View.OnClickListener() {
@@ -77,32 +91,7 @@ public class AddServiceFragment extends Fragment {
             done_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Service service = new Service(serviceFor_editText.getText().toString(), serviceRate_editText.getText().toString());
-
-                    String artistID = firebaseAuth.getUid();
-
-                    DocumentReference documentReference = firestore.collection("artists").document(artistID).collection("services").document();
-                    service.setServiceID(documentReference.getId());
-
-                    HashMap<String, Object> data = new HashMap<>();
-                        data.put("serviceFor", service.getServiceFor());
-                        data.put("serviceRate", service.getServiceRate());
-
-
-                    // register the service locally as well
-                        artist.addServiceToArtist(service);
-
-                    documentReference.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            switchToProfilePage();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull @NotNull Exception e) {
-                            Toast.makeText(getContext(), "Daya, kuch toh gadbad hai", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    uploadServiceDetailsToFirebase();
                 }
             });
     }
@@ -125,6 +114,79 @@ public class AddServiceFragment extends Fragment {
                 }
             }
         }
+    }
+
+    public void uploadMediaToFirebase(){
+        for(int i=0; i < mediaUris.size(); i++){
+            Uri imageUri = mediaUris.get(i);
+
+            StorageReference mediaRef = storageReference.child("/media" + i + ".jpg");
+
+            // compress image and get the uri
+                File ppFile = new File(getPath(imageUri));
+                Log.d("krishlog", "uploadImageToFirebase: file is " + ppFile.toString());
+                try {
+                    compressedImageFile = new Compressor(getContext())
+                            .setMaxWidth(250)
+                            .setMaxHeight(250)
+                            .setQuality(50)
+                            .compressToFile(ppFile);
+                    Log.d("krishlog", "uploadImageToFirebase: com is " + compressedImageFile.toString());
+                } catch (IOException e) {
+                    Log.d("krishlog", "uploadImageToFirebase: error is " + e.getMessage());
+                }
+                Uri compressedUri = Uri.fromFile(compressedImageFile);
+
+            // put image in firebase storage
+                mediaRef.putFile(compressedUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("krishlog", "onSuccess: image uploaded");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        }
+        switchToProfilePage();
+    }
+
+    public void uploadServiceDetailsToFirebase(){
+        Service service = new Service(serviceFor_editText.getText().toString(), serviceRate_editText.getText().toString());
+        service.setServiceID(documentReference.getId());
+
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("serviceFor", service.getServiceFor());
+        data.put("serviceRate", service.getServiceRate());
+
+
+        // register the service locally as well
+            artist.addServiceToArtist(service);
+
+        documentReference.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                uploadMediaToFirebase();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Toast.makeText(getContext(), "Daya, kuch toh gadbad hai", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public String getPath(Uri uri){
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) return null;
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String s = cursor.getString(column_index);
+        cursor.close();
+        return s;
     }
 
     public void switchToProfilePage(){
