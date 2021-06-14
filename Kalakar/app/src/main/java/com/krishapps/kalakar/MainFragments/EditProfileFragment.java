@@ -81,7 +81,7 @@ public class EditProfileFragment extends Fragment {
 
         // collect firebase elements
             firebaseAuth = FirebaseAuth.getInstance();
-            storageReference = FirebaseStorage.getInstance().getReference().child("users/" + firebaseAuth.getCurrentUser().getUid() + "/profile.jpg");;
+            storageReference = FirebaseStorage.getInstance().getReference().child("users/" + firebaseAuth.getCurrentUser().getUid() + "/profile.jpg");
             fireStore = FirebaseFirestore.getInstance();
             userID = firebaseAuth.getCurrentUser().getUid();
             Log.d("krishlog", "onViewCreated: user id created");
