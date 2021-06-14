@@ -22,6 +22,15 @@ public class Service {
         this.serviceRate = serviceRate;
     }
 
+    public String getServiceID() {
+        return serviceID;
+    }
+
+    public void setServiceID(String serviceID) {
+        this.serviceID = serviceID;
+    }
+
+    private String serviceID;
     private String serviceFor;
     private String serviceRate;
 }

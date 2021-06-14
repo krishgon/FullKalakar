@@ -77,6 +77,9 @@ public class ProfileFragment extends Fragment {
                 public void onClick(View v) {
                     Log.d("krishlog", "onClick: you clicked on the button");
 
+                    // make the screen fullscreen
+                        getActivity().findViewById(R.id.mainBottom_navigation).setVisibility(View.GONE);
+
                     Fragment fragment = new AddServiceFragment();
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
