@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                                 DocumentSnapshot ds = serviceDocs.get(i);
                                 Log.d("krishlog", "onComplete: the service for is: " + ds.getString("serviceFor"));
                                 Service s = new Service(ds.getString("serviceFor"), ds.getString("serviceRate"));
+                                s.setServiceID(ds.getId());
                                 services.add(s);
                             }
                             artist.setServices(services);

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.krishapps.kalakarbuisness.CustomClasses.Service;
 import com.krishapps.kalakarbuisness.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,8 @@ public class ServiceMediaAdapter extends RecyclerView.Adapter<ServiceMediaAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ServiceMediaAdapter.ViewHolder holder, int position) {
-        serviceMedia_imageView.setImageURI(localDataSet.get(position));
+//        serviceMedia_imageView.setImageURI(localDataSet.get(position));
+        Picasso.get().load(localDataSet.get(position)).into(serviceMedia_imageView);
 
         Context context = holder.itemView.getContext();
 

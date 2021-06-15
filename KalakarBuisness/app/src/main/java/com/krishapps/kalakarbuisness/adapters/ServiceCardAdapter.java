@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.krishapps.kalakarbuisness.CustomClasses.Service;
+import com.krishapps.kalakarbuisness.EditService;
+import com.krishapps.kalakarbuisness.MainActivity;
 import com.krishapps.kalakarbuisness.R;
 
 import java.util.ArrayList;
@@ -50,11 +52,13 @@ public class ServiceCardAdapter extends RecyclerView.Adapter<ServiceCardAdapter.
 
         Context context = holder.itemView.getContext();
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("krishlog", "onClick: the card of " + localDataSet.get(position).getServiceFor() + " is clicked");
+                Intent intent = new Intent(context, EditService.class);
+                intent.putExtra("service", localDataSet.get(position));
+                context.startActivity(intent);
             }
         });
     }
