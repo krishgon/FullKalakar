@@ -1,14 +1,19 @@
 package com.krishapps.kalakarbuisness;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.Notification;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -35,7 +40,7 @@ import static com.krishapps.kalakarbuisness.MainActivity.serviceRegistration;
 public class EditService extends AppCompatActivity {
 
     EditText editServFor_editText, editServRate_editText;
-    Button editServDone_button;
+    Button editServDone_button, editAddMedia_button;
     RecyclerView editServMedia_recyclerView;
     FirebaseFirestore firestore;
     FirebaseStorage firebaseStorage;
@@ -43,6 +48,7 @@ public class EditService extends AppCompatActivity {
     Service service;
     DocumentReference documentReference;
     ServiceMediaAdapter adapter;
+    ArrayList<Uri> uris;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,7 @@ public class EditService extends AppCompatActivity {
             editServRate_editText = findViewById(R.id.editServRate_editText);
             editServDone_button = findViewById(R.id.editServDone_button);
             editServMedia_recyclerView = findViewById(R.id.editServMedia_recyclerView);
+            editAddMedia_button = findViewById(R.id.editAddMedia_button);
 
         // collect service
             service = (Service) getIntent().getSerializableExtra("service");
@@ -78,23 +85,44 @@ public class EditService extends AppCompatActivity {
             editServRate_editText.setText(service.getServiceRate());
             collectServiceMedia();
 
+        // when clicked on add media, take user to gallery to choose the media
+            editAddMedia_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 1002);
+                }
+            });
     }
 
-    public void updateRecyclerView(ArrayList<Uri> mediaUris){
-        Log.d("krishlog", "setupRecyclerView: the uri's are " + mediaUris.toString());
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1002){
+            if(resultCode == Activity.RESULT_OK){
+                Uri uri = data.getData();
+                uris.add(0, uri);
+                Log.d("krishlog", "onActivityResult: the list is:- " + uris.toString());
+                updateRecyclerView();
+            }
+        }
+    }
 
-        if(mediaUris.size() == 1){
-            adapter = new ServiceMediaAdapter(mediaUris);
+    public void updateRecyclerView(){
+        Log.d("krishlog", "setupRecyclerView: the uri's are " + uris.toString());
+
+        if(uris.size() == 1){
+            adapter = new ServiceMediaAdapter(uris);
             editServMedia_recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             editServMedia_recyclerView.setAdapter(adapter);
         }else{
-            adapter.localDataSet = mediaUris;
-            adapter.notifyDataSetChanged();
+            adapter.localDataSet = uris;
+            adapter.notifyItemInserted(0);
         }
     }
 
     public void collectServiceMedia(){
-        ArrayList<Uri> uris = new ArrayList<>();
+        uris = new ArrayList<>();
         Log.d("krishlog", "collectServiceMedia: came here");
         storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
@@ -103,9 +131,9 @@ public class EditService extends AppCompatActivity {
                     item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            uris.add(uri);
+                            uris.add(0, uri);
                             Log.d("krishlog", "onSuccess: the uri is " + uri.toString());
-                            updateRecyclerView(uris);
+                            updateRecyclerView();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
