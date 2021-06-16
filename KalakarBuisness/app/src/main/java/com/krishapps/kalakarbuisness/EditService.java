@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -33,6 +34,7 @@ import com.krishapps.kalakarbuisness.adapters.ServiceMediaAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.krishapps.kalakarbuisness.MainActivity.artist;
 import static com.krishapps.kalakarbuisness.MainActivity.serviceRegistration;
@@ -93,6 +95,14 @@ public class EditService extends AppCompatActivity {
                     startActivityForResult(intent, 1002);
                 }
             });
+
+        // update the data in firebase according to the current data when clicked on done button
+            editServDone_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateServiceDetailsOnFirebase();
+                }
+            });
     }
 
     @Override
@@ -106,6 +116,29 @@ public class EditService extends AppCompatActivity {
                 updateRecyclerView();
             }
         }
+    }
+
+    public void updateServiceDetailsOnFirebase(){
+        // reference to the service in firestore
+            DocumentReference servRef = documentReference.collection("services").document(service.getServiceID());
+
+        // make the hash map of the data
+            HashMap<String, Object> serviceData = new HashMap<>();
+                serviceData.put("serviceFor", editServFor_editText.getText().toString());
+                serviceData.put("serviceRate", editServRate_editText.getText().toString());
+
+        // update firebase (upload the hash map)
+            servRef.set(serviceData, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d("krishlog", "onSuccess: service details edited");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull @NotNull Exception e) {
+                    Log.d("krishlog", "onSuccess: kuch toh gadbad hai daya; " + e.getMessage());
+                }
+            });
     }
 
     public void updateRecyclerView(){
