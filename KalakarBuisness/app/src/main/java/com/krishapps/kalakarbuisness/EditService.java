@@ -158,6 +158,7 @@ public class EditService extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Log.d("krishlog", "onSuccess: image uploaded");
+                            switchToProfileFragment();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
