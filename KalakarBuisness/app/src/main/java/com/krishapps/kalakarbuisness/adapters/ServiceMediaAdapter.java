@@ -50,11 +50,11 @@ public class ServiceMediaAdapter extends RecyclerView.Adapter<ServiceMediaAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ServiceMediaAdapter.ViewHolder holder, int position) {
-        if(localDataSet.get(position).toString().contains("http")){
+//        if(localDataSet.get(position).toString().contains("http")){
             Picasso.get().load(localDataSet.get(position)).into(serviceMedia_imageView);
-        }else{
-            serviceMedia_imageView.setImageURI(localDataSet.get(position));
-        }
+//        }else{
+//            serviceMedia_imageView.setImageURI(localDataSet.get(position));
+//        }
         Context context = holder.itemView.getContext();
 
         deleteButton.setOnClickListener(new View.OnClickListener() {

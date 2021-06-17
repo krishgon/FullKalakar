@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.app.Notification;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,13 +30,18 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.krishapps.kalakarbuisness.CustomClasses.Service;
 import com.krishapps.kalakarbuisness.adapters.ServiceMediaAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import id.zelory.compressor.Compressor;
 
 import static com.krishapps.kalakarbuisness.MainActivity.artist;
 import static com.krishapps.kalakarbuisness.MainActivity.serviceRegistration;
@@ -50,7 +57,9 @@ public class EditService extends AppCompatActivity {
     Service service;
     DocumentReference documentReference;
     ServiceMediaAdapter adapter;
-    ArrayList<Uri> uris;
+    ArrayList<Uri> recyclerUris, uris;
+    File compressedImageFile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +90,7 @@ public class EditService extends AppCompatActivity {
             firebaseStorage = FirebaseStorage.getInstance();
             documentReference = firestore.collection("artists").document(artist.getArtistID());
             storageReference = firebaseStorage.getReference().child("artists/" + artist.getArtistID() + "/services/" + service.getServiceID() + "/");
+            recyclerUris = new ArrayList<>();
 
         // update ui according to the service's data
             editServFor_editText.setText(service.getServiceFor());
@@ -101,6 +111,7 @@ public class EditService extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     updateServiceDetailsOnFirebase();
+//                    switchToProfileFragment();
                 }
             });
     }
@@ -111,11 +122,67 @@ public class EditService extends AppCompatActivity {
         if(requestCode == 1002){
             if(resultCode == Activity.RESULT_OK){
                 Uri uri = data.getData();
-                uris.add(0, uri);
+                uris.add(uri);
                 Log.d("krishlog", "onActivityResult: the list is:- " + uris.toString());
-                updateRecyclerView();
+                updateRecyclerView(uri);
             }
         }
+    }
+
+    public void updateServiceMediaOnFirebase(){
+        for(Uri uri : recyclerUris){
+            String currentUri = uri.toString();
+            if(currentUri.contains("https")){
+                break;
+            }else{
+                int index = uris.indexOf(uri);
+                StorageReference mediaRef = storageReference.child("media" + index + ".jpg");
+
+                // compress image and get the uri
+                    File ppFile = new File(getPath(uri));
+                    Log.d("krishlog", "uploadImageToFirebase: file is " + ppFile.toString());
+                    try {
+                        compressedImageFile = new Compressor(getApplicationContext())
+                                .setMaxWidth(400)
+                                .setMaxHeight(400)
+                                .setQuality(50)
+                                .compressToFile(ppFile);
+                        Log.d("krishlog", "uploadImageToFirebase: com is " + compressedImageFile.toString());
+                    } catch (IOException e) {
+                        Log.d("krishlog", "uploadImageToFirebase: error is " + e.getMessage());
+                    }
+                    Uri compressedUri = Uri.fromFile(compressedImageFile);
+
+                // put image in firebase
+                    mediaRef.putFile(compressedUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Log.d("krishlog", "onSuccess: image uploaded");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull @NotNull Exception e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            }
+        }
+    }
+
+    public void switchToProfileFragment(){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    public String getPath(Uri uri){
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) return null;
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String s = cursor.getString(column_index);
+        cursor.close();
+        return s;
     }
 
     public void updateServiceDetailsOnFirebase(){
@@ -132,6 +199,7 @@ public class EditService extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void unused) {
                     Log.d("krishlog", "onSuccess: service details edited");
+                    updateServiceMediaOnFirebase();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -141,15 +209,17 @@ public class EditService extends AppCompatActivity {
             });
     }
 
-    public void updateRecyclerView(){
-        Log.d("krishlog", "setupRecyclerView: the uri's are " + uris.toString());
+    public void updateRecyclerView(Uri uri){
+//        Log.d("krishlog", "setupRecyclerView: the uri's are " + uris.toString());
 
-        if(uris.size() == 1){
-            adapter = new ServiceMediaAdapter(uris);
+        recyclerUris.add(0, uri);
+
+        if(recyclerUris.size() == 1){
+            adapter = new ServiceMediaAdapter(recyclerUris);
             editServMedia_recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             editServMedia_recyclerView.setAdapter(adapter);
         }else{
-            adapter.localDataSet = uris;
+            adapter.localDataSet = recyclerUris;
             adapter.notifyItemInserted(0);
         }
     }
@@ -164,9 +234,9 @@ public class EditService extends AppCompatActivity {
                     item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            uris.add(0, uri);
+                            uris.add(uri);
                             Log.d("krishlog", "onSuccess: the uri is " + uri.toString());
-                            updateRecyclerView();
+                            updateRecyclerView(uri);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

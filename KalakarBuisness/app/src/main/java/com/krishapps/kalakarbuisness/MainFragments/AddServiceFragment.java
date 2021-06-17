@@ -127,8 +127,8 @@ public class AddServiceFragment extends Fragment {
                 Log.d("krishlog", "uploadImageToFirebase: file is " + ppFile.toString());
                 try {
                     compressedImageFile = new Compressor(getContext())
-                            .setMaxWidth(250)
-                            .setMaxHeight(250)
+                            .setMaxWidth(400)
+                            .setMaxHeight(400)
                             .setQuality(50)
                             .compressToFile(ppFile);
                     Log.d("krishlog", "uploadImageToFirebase: com is " + compressedImageFile.toString());
