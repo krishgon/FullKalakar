@@ -34,7 +34,7 @@ public class ServiceMediaAdapter extends RecyclerView.Adapter<ServiceMediaAdapte
     }
 
     public ServiceMediaAdapter(ArrayList<Uri> dataSet){
-        this.localDataSet = dataSet;
+        this.localDataSet = new ArrayList<Uri>(dataSet);
     }
 
     @NonNull

@@ -123,10 +123,16 @@ public class EditService extends AppCompatActivity {
         if(requestCode == 1002){
             if(resultCode == Activity.RESULT_OK){
                 Uri uri = data.getData();
-                uris.add(uri);
+
+                Log.d("krishlog", "onActivityResult: the uri obtained is "  + uri.toString());
+                Log.d("krishlog", "onActivityResult: the dataset is "  + recyclerUris.toString());
+
                 recyclerUris.add(0, uri);
+                Log.d("krishlog", "onActivityResult: the new dataset is "  + recyclerUris.toString());
+
                 adapter.addItem(uri);
-                Log.d("krishlog", "onActivityResult: the list again is :- " + adapter.localDataSet.toString());
+                Log.d("krishlog", "onActivityResult: the dataset of adapter is "  + adapter.localDataSet.toString());
+
             }
         }
     }
