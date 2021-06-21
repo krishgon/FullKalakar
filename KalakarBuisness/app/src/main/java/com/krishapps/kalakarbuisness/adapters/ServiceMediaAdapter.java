@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.protobuf.ApiOrBuilder;
 import com.krishapps.kalakarbuisness.CustomClasses.Service;
 import com.krishapps.kalakarbuisness.R;
 import com.squareup.picasso.Picasso;
@@ -50,19 +51,29 @@ public class ServiceMediaAdapter extends RecyclerView.Adapter<ServiceMediaAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ServiceMediaAdapter.ViewHolder holder, int position) {
-//        if(localDataSet.get(position).toString().contains("http")){
-            Picasso.get().load(localDataSet.get(position)).into(serviceMedia_imageView);
-//        }else{
-//            serviceMedia_imageView.setImageURI(localDataSet.get(position));
-//        }
-        Context context = holder.itemView.getContext();
+        Picasso.get().load(localDataSet.get(position)).into(serviceMedia_imageView);
+        Uri mUri = localDataSet.get(position);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("krishlog", "onClick: delete button clicked");
+                deleteItem(mUri);
             }
         });
+    }
+
+    public void deleteItem(Uri uri){
+        int position = localDataSet.indexOf(uri);
+
+        Log.d("krishlog", "deleteItem: delete button of " + position + " was clicked");
+
+        localDataSet.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void addItem(Uri uri){
+        localDataSet.add(0, uri);
+        notifyItemInserted(0);
     }
 
     @Override

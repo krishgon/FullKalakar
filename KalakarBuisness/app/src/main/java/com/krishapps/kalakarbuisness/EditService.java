@@ -59,6 +59,7 @@ public class EditService extends AppCompatActivity {
     ServiceMediaAdapter adapter;
     ArrayList<Uri> recyclerUris, uris;
     File compressedImageFile;
+    int initialMediaSize;
 
 
     @Override
@@ -123,8 +124,9 @@ public class EditService extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 Uri uri = data.getData();
                 uris.add(uri);
-                Log.d("krishlog", "onActivityResult: the list is:- " + uris.toString());
-                updateRecyclerView(uri);
+                recyclerUris.add(0, uri);
+                adapter.addItem(uri);
+                Log.d("krishlog", "onActivityResult: the list again is :- " + adapter.localDataSet.toString());
             }
         }
     }
@@ -210,18 +212,28 @@ public class EditService extends AppCompatActivity {
             });
     }
 
-    public void updateRecyclerView(Uri uri){
-//        Log.d("krishlog", "setupRecyclerView: the uri's are " + uris.toString());
+//    public void updateRecyclerView(Uri uri){
+////        Log.d("krishlog", "setupRecyclerView: the uri's are " + uris.toString());
+//
+//        recyclerUris.add(0, uri);
+//
+//        if(recyclerUris.size() == 1){
+//            adapter = new ServiceMediaAdapter(recyclerUris);
+//            editServMedia_recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//            editServMedia_recyclerView.setAdapter(adapter);
+//        }else{
+//            adapter.localDataSet = recyclerUris;
+//            adapter.notifyItemInserted(0);
+//        }
+//    }
 
+    public void setRecyclerView(Uri uri){
         recyclerUris.add(0, uri);
 
-        if(recyclerUris.size() == 1){
+        if(recyclerUris.size() == initialMediaSize){
             adapter = new ServiceMediaAdapter(recyclerUris);
             editServMedia_recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             editServMedia_recyclerView.setAdapter(adapter);
-        }else{
-            adapter.localDataSet = recyclerUris;
-            adapter.notifyItemInserted(0);
         }
     }
 
@@ -231,13 +243,15 @@ public class EditService extends AppCompatActivity {
         storageReference.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
             @Override
             public void onSuccess(ListResult listResult) {
+                initialMediaSize = listResult.getItems().size();
+
                 for(StorageReference item : listResult.getItems()){
                     item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             uris.add(uri);
                             Log.d("krishlog", "onSuccess: the uri is " + uri.toString());
-                            updateRecyclerView(uri);
+                            setRecyclerView(uri);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
