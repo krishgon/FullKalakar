@@ -112,27 +112,19 @@ public class EditService extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     updateServiceDetailsOnFirebase();
-//                    switchToProfileFragment();
+                    switchToProfileFragment();
                 }
             });
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1002){
             if(resultCode == Activity.RESULT_OK){
                 Uri uri = data.getData();
-
-                Log.d("krishlog", "onActivityResult: the uri obtained is "  + uri.toString());
-                Log.d("krishlog", "onActivityResult: the dataset is "  + recyclerUris.toString());
-
                 recyclerUris.add(0, uri);
-                Log.d("krishlog", "onActivityResult: the new dataset is "  + recyclerUris.toString());
-
                 adapter.addItem(uri);
-                Log.d("krishlog", "onActivityResult: the dataset of adapter is "  + adapter.localDataSet.toString());
-
             }
         }
     }
@@ -274,5 +266,4 @@ public class EditService extends AppCompatActivity {
             }
         });
     }
-
 }

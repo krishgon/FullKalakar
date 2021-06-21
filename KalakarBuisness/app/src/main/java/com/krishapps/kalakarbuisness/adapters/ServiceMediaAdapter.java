@@ -69,11 +69,13 @@ public class ServiceMediaAdapter extends RecyclerView.Adapter<ServiceMediaAdapte
 
         localDataSet.remove(position);
         notifyItemRemoved(position);
+        Log.d("krishlog", "onActivityResult: the dataset of adapter is " + localDataSet.toString());
     }
 
     public void addItem(Uri uri){
         localDataSet.add(0, uri);
         notifyItemInserted(0);
+        Log.d("krishlog", "onActivityResult: the dataset of adapter is " + localDataSet.toString());
     }
 
     @Override
